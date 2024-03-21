@@ -6,6 +6,11 @@ const TableOperations = styled.div`
     align-items: center;
     gap: 1.6rem;
     margin-top: 1rem;
+
+    @media only screen and (min-width: 900px) {
+        flex-direction: row-reverse;
+        align-self: center;
+    }
 `;
 
 export default TableOperations;

@@ -12,12 +12,13 @@ const FlexGroup = styled.div`
             props.type === "row" &&
             css`
                 flex-direction: row;
+                align-items: center;
             `}
 
     ${(props) =>
             props.header &&
             css`
-                @media only screen and (max-width: 430px) {
+                @media only screen and (max-width: 450px) {
                     gap: 0;
                 }
             `}
@@ -25,8 +26,21 @@ const FlexGroup = styled.div`
     ${(props) =>
             props.contact &&
             css`
-                @media only screen and (max-width: 430px) {
+                @media only screen and (max-width: 450px) {
                     flex-direction: column;
+                }
+            `}
+
+    ${(props) =>
+            props.buttons &&
+            css`
+                @media only screen and (max-width: 1050px) {
+                    width: 100%;
+                }
+
+                @media only screen and (min-width: 900px) {
+                    width: 50%;
+                    align-self: center;
                 }
             `}
 `;

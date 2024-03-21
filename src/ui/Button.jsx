@@ -57,7 +57,7 @@ const Button = styled.button`
         width: 100% !important;
     }
 
-    @media only screen and (max-width: 430px) {
+    @media only screen and (max-width: 450px) {
         font-size: 2rem !important;
     }
 
