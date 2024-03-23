@@ -1,10 +1,9 @@
 import FlexGroup from "./FlexGroup.jsx";
 import styled from "styled-components";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {HiArrowRightOnRectangle, HiUser} from "react-icons/hi2";
 import Seperator from "./Seperator.jsx";
 import DarkModeToggle from "./DarkModeToggle.jsx";
-
 
 
 const StyledNavLink = styled(NavLink)`
@@ -24,6 +23,7 @@ const StyledNavLink = styled(NavLink)`
             padding: 1.2rem 1.4rem;
         }
     }
+
     &:hover,
     &:active,
     &.active:link,
@@ -52,28 +52,28 @@ const StyledNavLink = styled(NavLink)`
 const Header = () => {
     return (
         <FlexGroup style={{gap: 0}}>
-        <FlexGroup type="row" style={{alignSelf: 'center',justifyContent: 'center'}} header>
-            <StyledNavLink replace to="home">
-                <p className="name">Home</p>
-            </StyledNavLink>
-            <StyledNavLink replace to="dashboard">
+            <FlexGroup type="row" style={{alignSelf: 'center', justifyContent: 'center'}} header>
+                <StyledNavLink replace to="home">
+                    <p className="name">Home</p>
+                </StyledNavLink>
+                <StyledNavLink replace to="dashboard">
 
-                <p className="name">Dashboard</p>
-            </StyledNavLink>
-            <StyledNavLink replace to="clients">
-                <p className="name">Users</p>
-            </StyledNavLink>
-            <FlexGroup type="row" style={{gap: '2rem'}}>
-                <DarkModeToggle/>
-                <StyledNavLink replace to="profile" style={{alignSelf: 'center',padding: 0}}>
-                    <HiUser/>
+                    <p className="name">Dashboard</p>
                 </StyledNavLink>
-                <StyledNavLink replace to="profile" style={{alignSelf: 'center',padding: 0}}>
-                    <HiArrowRightOnRectangle/>
+                <StyledNavLink replace to="clients">
+                    <p className="name">Users</p>
                 </StyledNavLink>
+                <FlexGroup type="row" style={{gap: '2rem'}}>
+                    <DarkModeToggle navBar={false}/>
+                    <StyledNavLink replace to="profile" style={{alignSelf: 'center', padding: 0}}>
+                        <HiUser/>
+                    </StyledNavLink>
+                    <StyledNavLink replace to="profile" style={{alignSelf: 'center', padding: 0}}>
+                        <HiArrowRightOnRectangle/>
+                    </StyledNavLink>
+                </FlexGroup>
+
             </FlexGroup>
-
-        </FlexGroup>
             <Seperator secondary/>
         </FlexGroup>
     );

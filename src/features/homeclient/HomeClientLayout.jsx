@@ -28,8 +28,6 @@ const QR = styled.div`
 `
 
 
-
-
 const HomeClientLayout = () => {
     return (
         <>
@@ -95,15 +93,13 @@ const HomeClientLayout = () => {
                         </FlexGroup>
 
 
-
-
                         <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
 
                             <Button sizes="medium">
                                 <FlexGroup type="row">
                                     <p>View all images (345)</p>
                                     <Icon type="secondary">
-                                        <HiArrowTopRightOnSquare />
+                                        <HiArrowTopRightOnSquare/>
                                     </Icon>
                                 </FlexGroup>
                             </Button>
@@ -172,8 +168,6 @@ const HomeClientLayout = () => {
                         </FlexGroup>
 
 
-
-
                         <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
                             <QR></QR>
                             <Button sizes="medium">
@@ -244,8 +238,6 @@ const HomeClientLayout = () => {
                         </FlexGroup>
 
 
-
-
                         <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
                             <QR></QR>
                             <Button sizes="medium">
@@ -314,8 +306,6 @@ const HomeClientLayout = () => {
                                 Test route,Test, Test 10
                             </Heading>
                         </FlexGroup>
-
-
 
 
                         <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>

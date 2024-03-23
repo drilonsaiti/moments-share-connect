@@ -62,8 +62,8 @@ const Button = styled.button`
     }
 
     ${(props) =>
-            props.notFound &&
-            css`
+    props.notFound &&
+    css`
                 display: flex;
                 align-items: center;
                 margin: 0 auto;

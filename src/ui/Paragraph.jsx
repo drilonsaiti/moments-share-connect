@@ -5,14 +5,14 @@ const Paragraph = styled.p`
     align-items: center;
     justify-content: center;
     gap: .5rem;
-  font-size: 1.6rem;
-  margin-left: 0.8rem;
+    font-size: 1.6rem;
+    margin-left: 0.8rem;
     margin-top: 1rem;
-  color: var(--color-grey-900);  
+    color: var(--color-grey-900);
 
-  & span {
-    font-weight: 600;
-  }
+    & span {
+        font-weight: 600;
+    }
 `;
 
 export default Paragraph;

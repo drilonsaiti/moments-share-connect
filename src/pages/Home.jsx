@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import HomeAdminLayout from "../features/homeadmin/HomeAdminLayout.jsx";
-import NavigationBar from "../ui/NavigationBar.jsx";
-import Header from "../ui/Header.jsx";
 import HomeAdmin from "../features/homeadmin/HomeAdmin.jsx";
 import HomeClient from "../features/homeclient/HomeClient.jsx";
 import Footer from "../ui/Footer.jsx";
@@ -20,7 +17,8 @@ const Layout = styled.main`
         display: inherit;
     }
     @media only screen and (max-width: 450px) {
-        grid-template-columns: 35rem;
+        grid-template-columns: 40rem;
+        gap: 0;
     }
 `;
 

@@ -36,18 +36,18 @@ const ButtonIcon = styled.button`
     }
 
     ${(props) =>
-            props.navBar &&
-            css`
-               
-                    display: flex;
-                    align-items: center;
-                    gap: 1.2rem;
-                    color: var(--color-grey-900);
-                    font-size: 1.6rem;
-                    font-weight: 500;
-                    transition: all 0.3s;
-                    background: none;
-                    border: none;
+    props.navBar &&
+    css`
+
+                display: flex;
+                align-items: center;
+                gap: 1.2rem;
+                color: var(--color-grey-900);
+                font-size: 1.6rem;
+                font-weight: 500;
+                transition: all 0.3s;
+                background: none;
+                border: none;
 
                 &:hover svg,
                 &:active svg,
@@ -71,6 +71,16 @@ const ButtonIcon = styled.button`
                     color: var(--color-brand-800);
                 }
             `}
+
+      ${(props) =>
+    props.absolute &&
+    css`
+                  position: absolute;
+                  top: 10px;
+                  right: 15px;
+              `
+}
+    
 `;
 
 export default ButtonIcon;

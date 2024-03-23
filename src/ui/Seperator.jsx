@@ -13,8 +13,8 @@ const Separator = styled.div`
     }
 
     ${(props) =>
-            props.secondary &&
-            css`
+    props.secondary &&
+    css`
                 background-color: var(--color-grey-100);
 
             `}

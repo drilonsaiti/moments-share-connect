@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import HomeAdminLayout from "../homeadmin/HomeAdminLayout.jsx";
 import NavigationBar from "../../ui/NavigationBar.jsx";
 import Header from "../../ui/Header.jsx";
 import HomeClientLayout from "./HomeClientLayout.jsx";
@@ -25,12 +24,12 @@ const StyledHome = styled.div`
 `
 const HomeClient = () => {
     return (
-            <StyledHome>
-                <Header/>
+        <StyledHome>
+            <Header/>
 
-                <HomeClientLayout/>
-                <NavigationBar/>
-            </StyledHome>
+            <HomeClientLayout/>
+            <NavigationBar/>
+        </StyledHome>
 
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {keyframes} from "styled-components";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {HiArrowRightOnRectangle, HiChartBar, HiHome, HiUser, HiUsers} from "react-icons/hi2";
 import DarkModeToggle from "./DarkModeToggle.jsx";
 
@@ -9,11 +9,12 @@ const NavigationLayout = styled.div`
     bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-grey-0);
+    width: 75%;
+    display: flex;
+    justify-content: center;
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(79, 70, 229, 0.3);
     padding: 1rem 2rem;
 
@@ -109,7 +110,7 @@ const NavigationBar = () => {
                 <StyledNavLink replace to="profile">
                     <HiArrowRightOnRectangle/>
                 </StyledNavLink>
-                <DarkModeToggle navBar/>
+                <DarkModeToggle navBar={true}/>
 
             </NavigationItems>
         </NavigationLayout>

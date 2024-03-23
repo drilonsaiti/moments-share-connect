@@ -30,21 +30,19 @@ const QR = styled.div`
 `
 
 
-
-
 const HomeAdminLayout = () => {
     return (
         <>
-           <FlexGroup  buttons>
-               <Button size="medium" style={{
-                   fontSize: '2.5rem', padding: '.5rem 6.6rem', width: '70%',
-                   alignSelf: 'center'
-               }}> Add new user </Button>
-               <Button size="medium" variation={'secondary'} style={{
-                   fontSize: '2.5rem', padding: '.5rem 6.6rem', width: '70%',
-                   alignSelf: 'center'
-               }}> Add new bucket </Button>
-           </FlexGroup>
+            <FlexGroup buttons>
+                <Button size="medium" style={{
+                    fontSize: '2.5rem', padding: '.5rem 6.6rem', width: '70%',
+                    alignSelf: 'center'
+                }}> Add new user </Button>
+                <Button size="medium" variation={'secondary'} style={{
+                    fontSize: '2.5rem', padding: '.5rem 6.6rem', width: '70%',
+                    alignSelf: 'center'
+                }}> Add new bucket </Button>
+            </FlexGroup>
 
             <HomeAdminOperations/>
             <Cards>

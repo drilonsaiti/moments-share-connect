@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 const ActionLink = styled.a`
     text-decoration: underline;
+
     &:link,
     &:visited {
         display: flex;
@@ -12,7 +13,7 @@ const ActionLink = styled.a`
         gap: 1.2rem;
 
         color: var(--color-brand-600);
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         font-weight: 500;
         transition: all 0.3s;
     }

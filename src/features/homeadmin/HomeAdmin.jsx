@@ -3,7 +3,6 @@ import styled from "styled-components";
 import HomeAdminLayout from "./HomeAdminLayout.jsx";
 import NavigationBar from "../../ui/NavigationBar.jsx";
 import Header from "../../ui/Header.jsx";
-import Footer from "../../ui/Footer.jsx";
 
 
 const StyledHome = styled.div`
@@ -29,11 +28,11 @@ const StyledHome = styled.div`
 const HomeAdmin = () => {
     return (
 
-            <StyledHome>
-                <Header/>
-                <HomeAdminLayout/>
-                <NavigationBar/>
-            </StyledHome>
+        <StyledHome>
+            <Header/>
+            <HomeAdminLayout/>
+            <NavigationBar/>
+        </StyledHome>
 
     );
 };
