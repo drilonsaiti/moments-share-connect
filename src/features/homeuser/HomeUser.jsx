@@ -6,23 +6,44 @@ import FlexGroup from "../../ui/FlexGroup.jsx";
 import Button from "../../ui/Button.jsx";
 import Footer from "../../ui/Footer.jsx";
 import DarkModeToggle from "../../ui/DarkModeToggle.jsx";
-import React from "react";
+import React, {useRef, useState} from "react";
 import ButtonIconSocial from "../../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
+import {HiCamera} from "react-icons/hi2";
+import {useWindowSize} from "@tofusoup429/use-window-size";
+import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
+import Modal from "../../ui/Modal.jsx";
 
 const StyledHome = styled.div`
     position: relative;
     background-color: var(--color-grey-0);
     padding: 2rem 4rem;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: min-content min-content 50%;
     align-items: center;
-    gap: 3rem;
+    justify-items: center;
+    gap: 1rem;
     height: 100vh;
 
     @media only screen and (min-width: 900px) {
         align-items: normal;
+    }
+    @media only screen and (min-width: 450px) {
+        grid-template-rows: min-content min-content 0;
+    }
+    @media only screen and (max-height: 670px) {
+        grid-template-rows: min-content min-content 30%;
+    }
+    @media only screen and (max-height: 650px) {
+        grid-template-rows: min-content min-content 40%;
+    }
+    @media only screen and (max-height: 500px) {
+        grid-template-rows: min-content min-content 30%;
+    }
+    @media only screen and (max-height: 400px) {
+        grid-template-rows: min-content min-content 20%;
     }
     @media only screen and (max-width: 450px) {
         padding: 2rem 2rem;
@@ -30,10 +51,9 @@ const StyledHome = styled.div`
 `
 
 const ButtonContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
 `
 
 const FooterContainer = styled.div`
@@ -50,12 +70,51 @@ const ActionLink = styled.a`
     text-decoration: none;
     cursor: pointer;
 `
+function capture(imgSrc) {
+    console.log(imgSrc);
+}
+
 const HomeUser = () => {
+    const fileInputRef = useRef(null);
+    const [image,setImage] = useState();
+    let {width, height} = useWindowSize()
+    const cam = useRef(null);
+    const [isOpenCamera, setIsOpenCamera] = useState(false);
+
+    const handleButtonClick = () => {
+        setIsOpenCamera(true);
+        fileInputRef.current.click();
+    };
+
+    function handleTakePhoto (dataUri) {
+        // Do stuff with the photo...
+        setImage(dataUri);
+        console.log('takePhoto',dataUri);
+    }
+    function handleTakePhotoAnimationDone (dataUri) {
+        // Do stuff with the photo...
+        console.log('takePhoto');
+    }
+
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            const imageUrl = event.target.result;
+            // Set the imageUrl to state or use it directly to display the image
+            setImage(imageUrl);
+            console.log(imageUrl);
+        };
+
+        reader.readAsDataURL(file);
+    };
     return (
         <StyledHome>
-            <FlexGroup type="row" style={{justifyContent: 'center'}}>
+            <FlexGroup type="row" style={{justifyContent: 'center',alignSelf: 'start'}}>
                 <FlexGroup style={{gap: 0, alignItems: 'center'}}>
-                    <FlexGroup type="row">
+                    <FlexGroup type="row" changeDirection>
                         <Heading style={{alignSelf: 'center', textAlign: 'center'}}>SemaDaka Events</Heading>
                         <ButtonIconSocial type="icon">
                             <FaInstagram/>
@@ -73,7 +132,7 @@ const HomeUser = () => {
 
             </FlexGroup>
             <Seperator/>
-            <FlexGroup style={{alignSelf: 'center', marginTop: '2rem'}}>
+            <FlexGroup style={{alignSelf: 'start', marginTop: '2rem'}}>
                 <Heading type="h3" style={{alignSelf: 'center', textAlign: 'center'}}>
                     📸 From the Event: Share Your Love Through Photos!
                 </Heading>
@@ -82,11 +141,58 @@ const HomeUser = () => {
                     hearts. Thank you for being part of our story!
                 </Paragraph>
             </FlexGroup>
-            <ButtonContainer>
-                <Button size="large" style={{alignSelf: 'center'}}>
+
+            {/*<Button size="large" style={{alignSelf: 'center'}}>
                     Take a photo
-                </Button>
+                </Button>*/}
+            <ButtonContainer style={{alignSelf: 'center'}}>
+           {/* <input
+                accept="image/*"
+                id="icon-button-file"
+                type="file"
+                capture="user"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                style={{display: 'none'}}
+            />
+            <Button
+                variant="contained"
+                color="primary"
+                startIcon={<HiCamera/>}
+                onClick={handleButtonClick}
+            >
+                Take a photo
+            </Button>
             </ButtonContainer>
+            {image && (
+                <img
+                    src={image}
+                    alt="Captured Image"
+                    style={{ transform:'scaleX(-1)'}}
+                />
+            )}*/}
+                <Modal>
+                <Modal.Open opens={"take-photo"}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<HiCamera/>}
+                        onClick={handleButtonClick}
+                    > Take a photo
+                    </Button>
+                </Modal.Open>
+                <Modal.Window name={"take-photo"}>
+                    <Camera
+                        onTakePhoto={(dataUri) => { handleTakePhoto(dataUri); }}
+                        onTakePhotoAnimationDone={() => { handleTakePhotoAnimationDone(); }}
+                        isMaxResolution={true}
+                        isImageMirror={true}
+                        isFullscreen={true}
+                        idealFacingMode={FACING_MODES.USER}
+                    />
+                </Modal.Window>
+                </Modal>
+              </ButtonContainer>
             <FooterContainer>
                 <Footer/>
             </FooterContainer>

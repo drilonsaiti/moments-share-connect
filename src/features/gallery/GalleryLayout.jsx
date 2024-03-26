@@ -1,71 +1,91 @@
-import {Grids} from "../../ui/GridIcon.jsx";
-import styled, {css} from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Lightbox from "yet-another-react-lightbox";
+import {Counter, Download, Fullscreen, Thumbnails, Zoom} from "yet-another-react-lightbox/plugins";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/counter.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import InputCheckbox from "../../ui/InputCheckbox.jsx";
 
-const StyledHome = styled.div`
-    position: relative;
-    background-color: var(--color-grey-0);
-    padding: 2rem 4rem;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
-    height: 100vh;
+const Grids = styled.div`
+    display: grid;
+    grid-template-columns: ${(props) => props.columns};
+    justify-items: ${(props) => props.justifyItems};
+    gap: 1rem;
+`;
 
-    @media only screen and (min-width: 900px) {
-        align-items: normal;
-        height: 95vh;
+const Input = styled.input`
+
+    z-index: 999;
+    position: absolute;
+    top: 1%;
+    left: 2%;
+    height: 2.5rem;
+    width: 2.5rem;
+    box-shadow: var(--shadow-md);
+    background-color: white;
+    &:checked {
+        background-color: green; /* Change to your desired color */
     }
-    @media only screen and (max-width: 450px) {
-        padding: 2rem 2rem;
+
+    &:checked ~ .checkmark {
+        background-color: red;
     }
+    
 `
 
-const GridIcon = styled.div`
-    height: 13rem;
-    width: 13rem;
-    background-color: var(--color-grey-700);
-    border-radius: 1.8px;
+const GalleryLayout = ({ gridNum,select }) => {
+    const [selectedImageIndex, setSelectedImageIndex] = useState(-1);
+    const [selectedImages,setSelectedImages] = useState([]);
+    const slides = [
+        {
+            src: 'https://192.168.1.6:5173/grid-image-1.jpg',
+            title: 'Image 1',
+            description: 'Description of image 1'
+        },
+        {
+            src: 'https://192.168.1.6:5173/grid-image-2.jpg',
+            title: 'Image 2',
+            description: 'Description of image 2'
+        }
+    ];
 
-    ${(props) =>
-            props.type === "one" &&
-            css`
-                height: 30rem;
-                width: 30rem;
-            `
-    }
-    ${(props) =>
-            props.type === "two" &&
-            css`
-                height: 19rem;
-                width: 19rem;
-            `
-    }
-    ${(props) =>
-            props.type === "three" &&
-            css`
-                height: 13rem;
-                width: 13rem;
-            `
-    }
-    ${(props) =>
-            props.type === "four" &&
-            css`
-                height: 9rem;
-                width: 9rem;
-            `
-    }
-`
-const GalleryLayout = () => {
-    const array = Array.from({length: 15});
+
+    const handleSelectedImage = (imageUrl) => {
+        setSelectedImages((prevSelectedImages) => [...prevSelectedImages, imageUrl]);
+    };
+
     return (
+        <div>
+            <Grids columns={`repeat(${gridNum}, 1fr)`} style={{justifyItems: 'center'}}>
+                {slides.map((slide, index) => (
+                    <div key={index} style={{position: 'relative'}}>
+                        {select && <InputCheckbox onClick={() => handleSelectedImage(slide.src)}/>}
+                        <img
+                            key={index}
+                            src={slide.src} // Replace with your image URLs
+                            alt={`Grid Image ${index + 1}`}
+                            onClick={() => setSelectedImageIndex(index)}
+                            style={{cursor: 'pointer'}}
+                        />
+                    </div>
+                ))}
 
-        <Grids columns={'repeat(3, 1fr)'} style={{justifyItems: 'center'}}>
-            {array.map((_, index) => (
-                <GridIcon key={index}/>
-            ))}
-        </Grids>
 
+            </Grids>
+
+            <Lightbox
+
+                slides={slides}
+                plugins={[Fullscreen, Counter, Download, Zoom, Thumbnails]}
+                counter={{container: {style: {top: 0, bottom: 'unset'}}}}
+                index={selectedImageIndex}
+                open={selectedImageIndex >= 0}
+                close={() => setSelectedImageIndex(-1)}
+                    enableZoom={true}
+                />
+
+        </div>
     );
 };
 

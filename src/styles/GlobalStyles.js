@@ -180,7 +180,9 @@ const GlobalStyles = createGlobalStyle`
 
     img {
         max-width: 100%;
-
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         /* For dark mode */
         filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
     }

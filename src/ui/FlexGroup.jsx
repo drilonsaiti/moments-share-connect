@@ -43,6 +43,19 @@ const FlexGroup = styled.div`
                     align-self: center;
                 }
             `}
+
+    ${(props) =>
+            props.changeDirection  &&
+            css`
+               
+
+                @media only screen and (max-width: 450px) {
+                   flex-direction: column !important;
+                    margin-bottom: 2rem !important;
+                }
+            `}
+    
+    
 `;
 
 export default FlexGroup;

@@ -4,7 +4,7 @@ import FlexGroup from "../ui/FlexGroup.jsx";
 import Seperator from "../ui/Seperator.jsx";
 import Heading from "../ui/Heading.jsx";
 import DarkModeToggle from "../ui/DarkModeToggle.jsx";
-import React from "react";
+import React, {useState} from "react";
 import ButtonIconSocial from "../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
 import Footer from "../ui/Footer.jsx";
@@ -19,7 +19,10 @@ const Layout = styled.main`
     justify-content: center;
     background-color: var(--color-grey-50);
     @media only screen and (max-width: 450px) {
-        grid-template-columns: 40rem;
+        grid-template-columns: 42rem;
+    }
+    @media only screen and (max-width: 400px) {
+        grid-template-columns: 38rem;
     }
 `;
 const StyledHome = styled.div`
@@ -46,12 +49,19 @@ const ActionLink = styled.a`
     cursor: pointer;
 `
 const Grid = () => {
+
+    const [selectGrid,setSelectGrid] = useState();
+    const [selectButton,setSelectButton] = useState();
+
+    const handleSelectGrid = (gridNum) => {
+        setSelectGrid(gridNum)
+    }
     return (
         <Layout>
             <StyledHome>
                 <FlexGroup type="row">
                     <FlexGroup style={{gap: 0, alignItems: 'center'}}>
-                        <FlexGroup type="row">
+                        <FlexGroup type="row" changeDirection>
                             <Heading style={{alignSelf: 'center', textAlign: 'center'}}>SemaDaka Events</Heading>
                             <ButtonIconSocial type="icon">
                                 <FaInstagram/>
@@ -70,21 +80,22 @@ const Grid = () => {
                 </FlexGroup>
                 <Seperator style={{marginTop: '-20px'}}/>
                 <FlexGroup type="row" style={{justifyContent: 'space-between', width: '100%'}}>
-                    <ActionLink>
-                        <p>Select</p>
+                    <ActionLink style={{fontSize: '1.8rem'}} onClick={() => setSelectButton(!selectButton)}>
+                        {!selectButton ? <p>Select</p> : <p>Cancel</p>}
+
                     </ActionLink>
                     <FlexGroup type="row" style={{gap: '1rem'}}>
-                        <Grids columns={"1fr"}>
+                        <Grids columns={"1fr"} onClick={() => handleSelectGrid(1)}>
                             <GridIcon/>
                             <GridIcon/>
                         </Grids>
-                        <Grids columns={"repeat(2,1fr)"}>
+                        <Grids columns={"repeat(2,1fr)"} onClick={() => handleSelectGrid(2)}>
                             <GridIcon/>
                             <GridIcon/>
                             <GridIcon/>
                             <GridIcon/>
                         </Grids>
-                        <Grids columns={"repeat(3,1fr)"}>
+                        <Grids columns={"repeat(3,1fr)"} onClick={() => handleSelectGrid(3)}>
                             <GridIcon/>
                             <GridIcon/>
                             <GridIcon/>
@@ -93,7 +104,7 @@ const Grid = () => {
                             <GridIcon/>
                         </Grids>
 
-                        <Grids columns={"repeat(4,1fr)"}>
+                        <Grids columns={"repeat(4,1fr)"} onClick={() => handleSelectGrid(4)}>
                             <GridIcon/>
                             <GridIcon/>
                             <GridIcon/>
@@ -105,7 +116,7 @@ const Grid = () => {
                         </Grids>
                     </FlexGroup>
                 </FlexGroup>
-                <GalleryLayout/>
+                <GalleryLayout gridNum={selectGrid} select={selectButton}/>
 
             </StyledHome>
 
