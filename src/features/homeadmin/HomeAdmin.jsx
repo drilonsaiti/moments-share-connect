@@ -8,7 +8,7 @@ import Header from "../../ui/Header.jsx";
 const StyledHome = styled.div`
     position: relative;
     background-color: var(--color-grey-0);
-    padding: 0 4rem;
+    padding: 1rem 4rem;
     width: 100%;
     display: flex;
     flex-direction: column;

@@ -7,8 +7,14 @@ export const StyledFormRow = styled.div`
     z-index: 1;
     //grid-template-rows: repeat(2,1fr);
     grid-template-columns: ${(props) =>
-            props.orientation === "vertical" ? "1fr" : "24rem 1fr 1.2fr"};
+    props.orientation === "vertical" ? "1fr" : "24rem 1fr 1.2fr"};
     gap: ${(props) => (props.orientation === "vertical" ? "0.8rem" : "2.4rem")};
+
+
+    @media only screen and (max-width: 700px) {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+    }
 
     padding: 1.2rem 1rem;
 
@@ -22,24 +28,28 @@ export const StyledFormRow = styled.div`
 
     &:not(:last-child) {
         border-bottom: ${(props) =>
-                props.orientation === "vertical"
-                        ? "none"
-                        : "1px solid var(--color-grey-100)"};
+    props.orientation === "vertical"
+        ? "none"
+        : "1px solid var(--color-grey-100)"};
     }
 
 
     ${(props) =>
-            props.orientation !== "vertical" && props.calendar !== 'calendar' &&
-            css`
+    props.orientation !== "vertical" && props.calendar !== 'calendar' &&
+    css`
         &:has(button) {
             display: flex;
             justify-content: flex-end;
             gap: 1.2rem;
+
+            @media only screen and (max-width: 700px) {
+                flex-direction: column-reverse;
+            }
         }
     `}
     ${(props) =>
-            props.calendar === 'calendar' &&
-            css`
+    props.calendar === 'calendar' &&
+    css`
         display: flex;
         margin-left: 8px;
         justify-content: normal;

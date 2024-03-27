@@ -9,6 +9,10 @@ import ButtonIconSocial from "../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
 import Footer from "../ui/Footer.jsx";
 import GalleryLayout from "../features/gallery/GalleryLayout.jsx";
+import Button from "../ui/Button.jsx";
+import {HiCheck} from "react-icons/hi2";
+import {HiDownload} from "react-icons/hi";
+import {downloadImages} from "../utils/useDownloadImages.js";
 
 const Layout = styled.main`
     position: relative;
@@ -48,14 +52,55 @@ const ActionLink = styled.a`
     text-decoration: none;
     cursor: pointer;
 `
+const CheckboxContainer = styled.label`
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+`;
+
+const CustomCheckbox = styled.div`
+    width: 2rem;
+    height:2rem;
+    border: 1px solid var(--color-brand-700);
+    border-radius: 0.25rem;
+    background-color: ${({checked}) => (checked ? 'var(--color-brand-700)' : 'white')};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+    
+    svg {
+        width: 2rem;
+        height: 2rem;
+        fill: var(--color-grey-700); 
+        visibility: ${({ checked }) => (checked ? 'visible' : 'hidden')};
+    }
+`;
+
 const Grid = () => {
 
-    const [selectGrid,setSelectGrid] = useState();
-    const [selectButton,setSelectButton] = useState();
+    const [selectGrid, setSelectGrid] = useState();
+    const [selectButton, setSelectButton] = useState();
+    const [checkedAll,setCheckedAll] = useState(false);
+    const [selectedImages,setSelectedImages] = useState([])
 
     const handleSelectGrid = (gridNum) => {
         setSelectGrid(gridNum)
     }
+    const updateSelectedImagesLength = (length) => {
+
+        setSelectedImages(length);
+    };
+
+    const handleDownloadSelected = () => {
+        if (selectedImages.length === 0) {
+            return;
+        }
+        downloadImages(selectedImages);
+
+    };
+
     return (
         <Layout>
             <StyledHome>
@@ -80,10 +125,29 @@ const Grid = () => {
                 </FlexGroup>
                 <Seperator style={{marginTop: '-20px'}}/>
                 <FlexGroup type="row" style={{justifyContent: 'space-between', width: '100%'}}>
-                    <ActionLink style={{fontSize: '1.8rem'}} onClick={() => setSelectButton(!selectButton)}>
-                        {!selectButton ? <p>Select</p> : <p>Cancel</p>}
+                    <FlexGroup>
+                        <FlexGroup type="row">
+                            {selectButton && (
+                                <ActionLink style={{fontSize: '1.8rem'}}>
+                                    <CheckboxContainer onClick={() => setCheckedAll(!checkedAll)}>
+                                        <CustomCheckbox checked={selectedImages.length > 0 ? checkedAll : false} >
+                                            <HiCheck />
+                                        </CustomCheckbox>
+                                        <p>Select all</p>
+                                    </CheckboxContainer>
+                                </ActionLink>)}
+                            <ActionLink style={{fontSize: '1.8rem'}} onClick={() => setSelectButton(!selectButton)}>
+                                {!selectButton ? <p>Select</p> : <p>Cancel</p>}
 
-                    </ActionLink>
+                            </ActionLink>
+
+                        </FlexGroup>
+                        {selectButton &&  <Button size="small" smallButton onClick={handleDownloadSelected}>
+                            <FlexGroup type="row" style={{justifyContent: 'center',gap: '.2rem'}}>
+                                <HiDownload/> <p>{`Download selected (${selectedImages.length})`}</p>
+                            </FlexGroup>
+                        </Button>}
+                    </FlexGroup>
                     <FlexGroup type="row" style={{gap: '1rem'}}>
                         <Grids columns={"1fr"} onClick={() => handleSelectGrid(1)}>
                             <GridIcon/>
@@ -116,7 +180,9 @@ const Grid = () => {
                         </Grids>
                     </FlexGroup>
                 </FlexGroup>
-                <GalleryLayout gridNum={selectGrid} select={selectButton}/>
+                <GalleryLayout gridNum={selectGrid} select={selectButton} checkedAll={checkedAll} setCheckedAll={setCheckedAll}
+                               updateSelectedImagesLength={updateSelectedImagesLength}
+                />
 
             </StyledHome>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import styled from 'styled-components';
 import Lightbox from "yet-another-react-lightbox";
 import {Counter, Download, Fullscreen, Thumbnails, Zoom} from "yet-another-react-lightbox/plugins";
@@ -24,6 +24,7 @@ const Input = styled.input`
     width: 2.5rem;
     box-shadow: var(--shadow-md);
     background-color: white;
+
     &:checked {
         background-color: green; /* Change to your desired color */
     }
@@ -31,28 +32,46 @@ const Input = styled.input`
     &:checked ~ .checkmark {
         background-color: red;
     }
-    
+
 `
 
-const GalleryLayout = ({ gridNum,select }) => {
+const GalleryLayout = ({gridNum, select,checkedAll,updateSelectedImagesLength}) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(-1);
-    const [selectedImages,setSelectedImages] = useState([]);
-    const slides = [
+    const [selectedImages, setSelectedImages] = useState([]);
+    const slides = useMemo(() => [
         {
-            src: 'https://192.168.1.6:5173/grid-image-1.jpg',
+            src: 'https://localhost:5173/grid-image-1.jpg',
             title: 'Image 1',
             description: 'Description of image 1'
         },
         {
-            src: 'https://192.168.1.6:5173/grid-image-2.jpg',
+            src: 'https://localhost:5173/grid-image-2.jpg',
             title: 'Image 2',
             description: 'Description of image 2'
         }
-    ];
+    ], []);
+
+    useEffect(() => {
+        if (checkedAll && selectedImages.length !== slides.length) {
+            const selectedImageUrls = slides.map(slide => slide.src);
+            setSelectedImages(prevSelectedImages => {
+                return Array.from(new Set([...prevSelectedImages, ...selectedImageUrls]));
+            });
+        }
+    }, [checkedAll, slides]);
+
+    useEffect(() => {
+        // Call the function to update selected images length
+        updateSelectedImagesLength(selectedImages);
+    }, [selectedImages, updateSelectedImagesLength]);
 
 
     const handleSelectedImage = (imageUrl) => {
-        setSelectedImages((prevSelectedImages) => [...prevSelectedImages, imageUrl]);
+        if (!selectedImages.includes(imageUrl)) {
+            setSelectedImages((prevSelectedImages) => [...prevSelectedImages, imageUrl]);
+        }else{
+            setSelectedImages((prevSelectedImages) => prevSelectedImages.filter((image) => image !== imageUrl));
+        }
     };
 
     return (
@@ -60,7 +79,7 @@ const GalleryLayout = ({ gridNum,select }) => {
             <Grids columns={`repeat(${gridNum}, 1fr)`} style={{justifyItems: 'center'}}>
                 {slides.map((slide, index) => (
                     <div key={index} style={{position: 'relative'}}>
-                        {select && <InputCheckbox onClick={() => handleSelectedImage(slide.src)}/>}
+                        {select  && <InputCheckbox checkedAll={checkedAll} onClick={() => handleSelectedImage(slide.src)}/>}
                         <img
                             key={index}
                             src={slide.src} // Replace with your image URLs
@@ -82,8 +101,8 @@ const GalleryLayout = ({ gridNum,select }) => {
                 index={selectedImageIndex}
                 open={selectedImageIndex >= 0}
                 close={() => setSelectedImageIndex(-1)}
-                    enableZoom={true}
-                />
+                enableZoom={true}
+            />
 
         </div>
     );

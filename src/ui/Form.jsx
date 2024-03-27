@@ -21,10 +21,16 @@ const Form = styled.form`
     overflow: hidden;
     font-size: 1.4rem;
 
-    @media only screen and (max-width: 600px) {
+    /*@media only screen and (max-width: 600px) {
         width: 80%;
         margin: 0 auto;
+    }*/
+
+    @media only screen and (max-width: 700px) {
+        width: 95%;
+        margin: 0 auto;
     }
+
 `;
 
 Form.defaultProps = {

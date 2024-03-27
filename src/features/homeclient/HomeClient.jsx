@@ -3,6 +3,7 @@ import styled from "styled-components";
 import NavigationBar from "../../ui/NavigationBar.jsx";
 import Header from "../../ui/Header.jsx";
 import HomeClientLayout from "./HomeClientLayout.jsx";
+import Footer from "../../ui/Footer.jsx";
 
 const StyledHome = styled.div`
     position: relative;
@@ -29,6 +30,7 @@ const HomeClient = () => {
 
             <HomeClientLayout/>
             <NavigationBar/>
+
         </StyledHome>
 
     );

@@ -10,7 +10,7 @@ const NavigationLayout = styled.div`
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--color-grey-0);
-    width: 75%;
+    width: 60%;
     display: flex;
     justify-content: center;
     border-radius: 16px;
@@ -22,8 +22,40 @@ const NavigationLayout = styled.div`
         display: none;
     }
     @media only screen and (max-width: 900px) {
-        display: block;
+        display: flex;
+        width: 38%;
     }
+    @media only screen and (max-width: 840px) {
+        width: 40%;
+    }
+    @media only screen and (max-width: 800px) {
+        width: 45%;
+    }
+    @media only screen and (max-width: 700px) {
+        width: 50%;
+    }
+    @media only screen and (max-width: 640px) {
+        width: 55%;
+    }
+    @media only screen and (max-width: 580px) {
+        width: 60%;
+    }
+    @media only screen and (max-width: 535px) {
+        width: 65%;
+    }
+    @media only screen and (max-width: 485px) {
+        width: 70%;
+    }
+    @media only screen and (max-width: 450px) {
+        width: 75%;
+    }
+    @media only screen and (max-width: 425px) {
+        width: 80%;
+    }
+    @media only screen and (max-width: 400px) {
+        width: 85%;
+    }
+    
 
 `;
 
@@ -107,7 +139,7 @@ const NavigationBar = () => {
                     <HiUser/>
                     <p className="name">profile</p>
                 </StyledNavLink>
-                <StyledNavLink replace to="profile">
+                <StyledNavLink replace to="logout">
                     <HiArrowRightOnRectangle/>
                 </StyledNavLink>
                 <DarkModeToggle navBar={true}/>

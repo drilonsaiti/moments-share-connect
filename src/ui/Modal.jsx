@@ -14,7 +14,15 @@ const StyledModal = styled.div`
     box-shadow: var(--shadow-lg);
     padding: 3.2rem 4rem;
     transition: all 0.5s;
-    overflow-y: ${({ overFlowVisible }) => (overFlowVisible ? 'visible' : 'auto')};`;
+    overflow-y: ${({ overFlowVisible }) => (overFlowVisible ? 'visible' : 'auto')};
+
+    @media only screen and (max-width: 700px) {
+        width: 90%;
+    }
+`;
+
+
+
 
 const Overlay = styled.div`
     position: fixed;
@@ -29,19 +37,18 @@ const Overlay = styled.div`
 `;
 
 const Button = styled.button`
-    background-color: #000;
-    color: #fff;
+    background: none;
     border: none;
     padding: 0.4rem;
     border-radius: var(--border-radius-sm);
     transform: translateX(0.8rem);
     transition: all 0.2s;
     position: absolute;
-    bottom: 7rem;
-    left: 6rem;
+    top: 1.2rem;
+    right: 1.9rem;
 
     &:hover {
-        background-color: var(--color-grey-0);
+        background-color: var(--color-grey-100);
     }
 
     & svg {
@@ -50,7 +57,7 @@ const Button = styled.button`
         /* Sometimes we need both */
         /* fill: var(--color-grey-500);
         stroke: var(--color-grey-500); */
-        color: var(--color-grey-0);
+        color: var(--color-grey-500);
     }
 `;
 
@@ -77,29 +84,15 @@ const Window = ({ children, name, overFlowVisible }) => {
     const { openName, close } = useContext(ModalContext);
     const ref = useOutsideClick(close);
 
-    const handleTakePhotoAnimationDone = useCallback(() => {
-        close(); // Close the modal when the animation is done
-    }, [close]);
-
     if (name !== openName) return null;
-    const handleAnimationEnd = () => {
-        if (name === openName) {
-            close(); // Close the modal after the animation ends
-        }
-    };
-    const fadeOutStyles = {
-        opacity: openName === name ? 1 : 0,
-        transition: 'opacity 0.3s ease-out' // Adjust timing and easing as needed
-    };
+
     return createPortal(
         <Overlay>
-            <StyledModal ref={ref} onClick={(e) => e.stopPropagation()}
-                         style={fadeOutStyles} // Apply inline styles for fade-out animation
-                         onAnimationEnd={handleAnimationEnd}
-                         overFlowVisible={overFlowVisible}>
-                <Button style={{zIndex: '999'}} onClick={close}>Cancel</Button>
+            <StyledModal ref={ref} onClick={(e) => e.stopPropagation()} overFlowVisible={overFlowVisible}>
+                <Button onClick={close}><HiXMark /></Button>
                 <div>
-                    {cloneElement(children, { onCloseModal: close, onTakePhotoAnimationDone: handleTakePhotoAnimationDone })}                </div>
+                    {cloneElement(children, { onCloseModal: close })}
+                </div>
             </StyledModal>
         </Overlay>,
         document.body

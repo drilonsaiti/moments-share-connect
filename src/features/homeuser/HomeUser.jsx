@@ -11,9 +11,9 @@ import ButtonIconSocial from "../../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
 import {HiCamera} from "react-icons/hi2";
 import {useWindowSize} from "@tofusoup429/use-window-size";
-import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
+import Camera, {FACING_MODES} from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
-import Modal from "../../ui/Modal.jsx";
+import ModalCamera from "../../ui/ModalCamera.jsx";
 
 const StyledHome = styled.div`
     position: relative;
@@ -70,13 +70,14 @@ const ActionLink = styled.a`
     text-decoration: none;
     cursor: pointer;
 `
+
 function capture(imgSrc) {
     console.log(imgSrc);
 }
 
 const HomeUser = () => {
     const fileInputRef = useRef(null);
-    const [image,setImage] = useState();
+    const [image, setImage] = useState();
     let {width, height} = useWindowSize()
     const cam = useRef(null);
     const [isOpenCamera, setIsOpenCamera] = useState(false);
@@ -86,12 +87,13 @@ const HomeUser = () => {
         fileInputRef.current.click();
     };
 
-    function handleTakePhoto (dataUri) {
+    function handleTakePhoto(dataUri) {
         // Do stuff with the photo...
         setImage(dataUri);
-        console.log('takePhoto',dataUri);
+        console.log('takePhoto', dataUri);
     }
-    function handleTakePhotoAnimationDone (dataUri) {
+
+    function handleTakePhotoAnimationDone(dataUri) {
         // Do stuff with the photo...
         console.log('takePhoto');
     }
@@ -112,7 +114,7 @@ const HomeUser = () => {
     };
     return (
         <StyledHome>
-            <FlexGroup type="row" style={{justifyContent: 'center',alignSelf: 'start'}}>
+            <FlexGroup type="row" style={{justifyContent: 'center', alignSelf: 'start'}}>
                 <FlexGroup style={{gap: 0, alignItems: 'center'}}>
                     <FlexGroup type="row" changeDirection>
                         <Heading style={{alignSelf: 'center', textAlign: 'center'}}>SemaDaka Events</Heading>
@@ -146,7 +148,7 @@ const HomeUser = () => {
                     Take a photo
                 </Button>*/}
             <ButtonContainer style={{alignSelf: 'center'}}>
-           {/* <input
+                {/* <input
                 accept="image/*"
                 id="icon-button-file"
                 type="file"
@@ -171,28 +173,32 @@ const HomeUser = () => {
                     style={{ transform:'scaleX(-1)'}}
                 />
             )}*/}
-                <Modal>
-                <Modal.Open opens={"take-photo"}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<HiCamera/>}
-                        onClick={handleButtonClick}
-                    > Take a photo
-                    </Button>
-                </Modal.Open>
-                <Modal.Window name={"take-photo"}>
-                    <Camera
-                        onTakePhoto={(dataUri) => { handleTakePhoto(dataUri); }}
-                        onTakePhotoAnimationDone={() => { handleTakePhotoAnimationDone(); }}
-                        isMaxResolution={true}
-                        isImageMirror={true}
-                        isFullscreen={true}
-                        idealFacingMode={FACING_MODES.USER}
-                    />
-                </Modal.Window>
-                </Modal>
-              </ButtonContainer>
+                <ModalCamera>
+                    <ModalCamera.Open opens={"take-photo"}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<HiCamera/>}
+                            onClick={handleButtonClick}
+                        > Take a photo
+                        </Button>
+                    </ModalCamera.Open>
+                    <ModalCamera.Window name={"take-photo"}>
+                        <Camera
+                            onTakePhoto={(dataUri) => {
+                                handleTakePhoto(dataUri);
+                            }}
+                            onTakePhotoAnimationDone={() => {
+                                handleTakePhotoAnimationDone();
+                            }}
+                            isMaxResolution={true}
+                            isImageMirror={true}
+                            isFullscreen={true}
+                            idealFacingMode={FACING_MODES.USER}
+                        />
+                    </ModalCamera.Window>
+                </ModalCamera>
+            </ButtonContainer>
             <FooterContainer>
                 <Footer/>
             </FooterContainer>

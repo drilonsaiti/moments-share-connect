@@ -9,31 +9,31 @@ const FlexGroup = styled.div`
 
 
     ${(props) =>
-    props.type === "row" &&
-    css`
+            props.type === "row" &&
+            css`
                 flex-direction: row;
                 align-items: center;
             `}
 
     ${(props) =>
-    props.header &&
-    css`
+            props.header &&
+            css`
                 @media only screen and (max-width: 450px) {
                     gap: 0;
                 }
             `}
 
     ${(props) =>
-    props.contact &&
-    css`
+            props.contact &&
+            css`
                 @media only screen and (max-width: 450px) {
                     flex-direction: column;
                 }
             `}
 
     ${(props) =>
-    props.buttons &&
-    css`
+            props.buttons &&
+            css`
                 @media only screen and (max-width: 1050px) {
                     width: 100%;
                 }
@@ -45,17 +45,17 @@ const FlexGroup = styled.div`
             `}
 
     ${(props) =>
-            props.changeDirection  &&
+            props.changeDirection &&
             css`
-               
+
 
                 @media only screen and (max-width: 450px) {
-                   flex-direction: column !important;
+                    flex-direction: column !important;
                     margin-bottom: 2rem !important;
                 }
             `}
-    
-    
+
+
 `;
 
 export default FlexGroup;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {HiCheck} from "react-icons/hi2";
 
@@ -11,7 +11,7 @@ const CheckboxContainer = styled.label`
     height: 2.5rem;
 `;
 
-const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
+const HiddenCheckbox = styled.input.attrs({type: 'checkbox'})`
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -24,42 +24,44 @@ const StyledCheckbox = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${({ isChecked }) => (isChecked ? 'var(--color-brand-700)' : 'white')}; /* Change to your desired color */
+    background-color: ${({isChecked}) => (isChecked ? 'var(--color-brand-700)' : 'white')}; 
     border: 1px solid var(--color-brand-700);
     box-shadow: var(--shadow-md);
+    border-radius: 0.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    & svg{
+
+    & svg {
         width: 2rem;
         height: 2rem;
+        fill: var(--color-grey-700);
     }
 `;
 
-const CheckIcon = styled.svg`
-    fill: none;
-    stroke: white;
-    stroke-width: 2px;
-    visibility: ${({ isChecked }) => (isChecked ? 'visible' : 'hidden')};
-`;
+const InputCheckbox = ({onClick,checkedAll}) => {
+    const [isChecked, setIsChecked] = useState(false);
 
-const InputCheckbox = ({onClick}) => {
-    const [isChecked, setIsChecked] = React.useState(false);
+    useEffect(() => {
+        if (checkedAll){
+            setIsChecked(true);
+        }else{
+            setIsChecked(false)
+        }
+    }, [checkedAll]);
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
         if (onClick) {
-            onClick(); // Call the onClick handler if provided
+            onClick();
         }
     };
 
-
     return (
         <CheckboxContainer>
-            <HiddenCheckbox checked={isChecked} onChange={handleCheckboxChange} />
-            <StyledCheckbox isChecked={isChecked} >
-                {isChecked && <HiCheck />}
+            <HiddenCheckbox checked={isChecked} onClick={handleCheckboxChange}/>
+            <StyledCheckbox isChecked={isChecked}>
+                {isChecked && <HiCheck/> }
             </StyledCheckbox>
         </CheckboxContainer>
     );

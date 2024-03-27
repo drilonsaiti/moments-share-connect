@@ -7,6 +7,7 @@ import Home from "./pages/Home.jsx";
 import HomeUserPage from "./pages/HomeUserPage.jsx";
 import {DarkModeProvider} from "./context/DarkModeContext.jsx";
 import Grid from "./pages/Grid.jsx";
+import HomeClientPage from "./pages/HomeClientPage.jsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -25,7 +26,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="login" element={<Login/>}/>
-                    <Route path="client" element={<HomeClient/>}/>
+                    <Route path="client" element={<HomeClientPage/>}/>
                     <Route path="user" element={<HomeUserPage/>}/>
                     <Route path="grid" element={<Grid/>}/>
                     <Route index element={<Navigate replace to={"/home"}/>}/>

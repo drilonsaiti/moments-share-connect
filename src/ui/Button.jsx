@@ -58,7 +58,9 @@ const Button = styled.button`
     }
 
     @media only screen and (max-width: 450px) {
-        font-size: 2rem !important;
+        ${props => !props.smallButton && css`
+            font-size: 2rem !important;
+        `}
     }
 
     ${(props) =>
@@ -68,7 +70,12 @@ const Button = styled.button`
                 align-items: center;
                 margin: 0 auto;
             `}
-
+    ${(props) =>
+            props.smallButton &&
+            css`
+                font-size: 1.4rem !important;
+                padding: .8rem .8rem;
+            `}
 
     ${(props) => sizes[props.size]}
     ${(props) => variations[props.variation]}
