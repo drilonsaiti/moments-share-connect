@@ -58,7 +58,7 @@ const Button = styled.button`
     }
 
     @media only screen and (max-width: 450px) {
-        ${props => !props.smallButton && css`
+        ${props => !props.smallButton && !props.signUp && css`
             font-size: 2rem !important;
         `}
     }
@@ -71,14 +71,21 @@ const Button = styled.button`
                 margin: 0 auto;
             `}
     ${(props) =>
-            props.smallButton &&
-            css`
+    props.smallButton &&
+    css`
                 font-size: 1.4rem !important;
                 padding: .8rem .8rem;
             `}
 
     ${(props) => sizes[props.size]}
     ${(props) => variations[props.variation]}
+    ${(props) =>
+    props.signup &&
+    css`
+                @media only screen and (max-width: 450px) {
+                    font-size: 1.4rem !important;
+                }
+            `}
 
 
 `;

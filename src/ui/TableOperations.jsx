@@ -5,7 +5,6 @@ const TableOperations = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 1.6rem;
-    margin-top: 1rem;
 
     @media only screen and (min-width: 900px) {
         flex-direction: row-reverse;

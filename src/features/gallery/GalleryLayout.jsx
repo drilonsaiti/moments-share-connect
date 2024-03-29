@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Lightbox from "yet-another-react-lightbox";
 import {Counter, Download, Fullscreen, Thumbnails, Zoom} from "yet-another-react-lightbox/plugins";
@@ -6,6 +6,9 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import InputCheckbox from "../../ui/InputCheckbox.jsx";
+import {useGalleries} from "./useGalleries.js";
+import Spinner from "../../ui/Spinner.jsx";
+import {supabaseStorageUrl} from "../../services/supabase.js";
 
 const Grids = styled.div`
     display: grid;
@@ -35,25 +38,15 @@ const Input = styled.input`
 
 `
 
-const GalleryLayout = ({gridNum, select,checkedAll,updateSelectedImagesLength}) => {
+const GalleryLayout = ({gridNum, select, checkedAll, updateSelectedImagesLength}) => {
+    const {galleries, isLoading} = useGalleries();
     const [selectedImageIndex, setSelectedImageIndex] = useState(-1);
     const [selectedImages, setSelectedImages] = useState([]);
-    const slides = useMemo(() => [
-        {
-            src: 'https://localhost:5173/grid-image-1.jpg',
-            title: 'Image 1',
-            description: 'Description of image 1'
-        },
-        {
-            src: 'https://localhost:5173/grid-image-2.jpg',
-            title: 'Image 2',
-            description: 'Description of image 2'
-        }
-    ], []);
+    let slides = [];
 
     useEffect(() => {
         if (checkedAll && selectedImages.length !== slides.length) {
-            const selectedImageUrls = slides.map(slide => slide.src);
+            const selectedImageUrls = slides?.map(slide => slide.src);
             setSelectedImages(prevSelectedImages => {
                 return Array.from(new Set([...prevSelectedImages, ...selectedImageUrls]));
             });
@@ -61,7 +54,6 @@ const GalleryLayout = ({gridNum, select,checkedAll,updateSelectedImagesLength}) 
     }, [checkedAll, slides]);
 
     useEffect(() => {
-        // Call the function to update selected images length
         updateSelectedImagesLength(selectedImages);
     }, [selectedImages, updateSelectedImagesLength]);
 
@@ -69,17 +61,25 @@ const GalleryLayout = ({gridNum, select,checkedAll,updateSelectedImagesLength}) 
     const handleSelectedImage = (imageUrl) => {
         if (!selectedImages.includes(imageUrl)) {
             setSelectedImages((prevSelectedImages) => [...prevSelectedImages, imageUrl]);
-        }else{
+        } else {
             setSelectedImages((prevSelectedImages) => prevSelectedImages.filter((image) => image !== imageUrl));
         }
     };
 
+    if (isLoading) <Spinner/>
+    if (galleries && galleries.image_urls && galleries.image_urls.length > 0) {
+        slides = galleries.image_urls.map(url => ({src: supabaseStorageUrl + galleries.bucket_name + "/" + url}));
+        console.log("Slide objects:", slides);
+    } else {
+        console.log("No image URLs available in the galleries object.");
+    }
     return (
         <div>
             <Grids columns={`repeat(${gridNum}, 1fr)`} style={{justifyItems: 'center'}}>
-                {slides.map((slide, index) => (
+                {slides?.map((slide, index) => (
                     <div key={index} style={{position: 'relative'}}>
-                        {select  && <InputCheckbox checkedAll={checkedAll} onClick={() => handleSelectedImage(slide.src)}/>}
+                        {select &&
+                            <InputCheckbox checkedAll={checkedAll} onClick={() => handleSelectedImage(slide.src)}/>}
                         <img
                             key={index}
                             src={slide.src} // Replace with your image URLs

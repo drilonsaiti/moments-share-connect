@@ -14,7 +14,7 @@ export const downloadImages = (selectedImages) => {
                 .then(blob => {
                     zip.file(`${folderName}/image_${index + 1}.jpg`, blob);
                     if (index === selectedImages.length - 1) {
-                        zip.generateAsync({ type: "blob" }).then(content => {
+                        zip.generateAsync({type: "blob"}).then(content => {
                             const link = document.createElement('a');
                             link.href = URL.createObjectURL(content);
                             link.setAttribute('download', 'selected_images.zip');

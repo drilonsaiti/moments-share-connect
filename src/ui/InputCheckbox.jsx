@@ -24,7 +24,7 @@ const StyledCheckbox = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${({isChecked}) => (isChecked ? 'var(--color-brand-700)' : 'white')}; 
+    background-color: ${({isChecked}) => (isChecked ? 'var(--color-brand-700)' : 'white')};
     border: 1px solid var(--color-brand-700);
     box-shadow: var(--shadow-md);
     border-radius: 0.25rem;
@@ -39,13 +39,13 @@ const StyledCheckbox = styled.div`
     }
 `;
 
-const InputCheckbox = ({onClick,checkedAll}) => {
+const InputCheckbox = ({onClick, checkedAll}) => {
     const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
-        if (checkedAll){
+        if (checkedAll) {
             setIsChecked(true);
-        }else{
+        } else {
             setIsChecked(false)
         }
     }, [checkedAll]);
@@ -61,7 +61,7 @@ const InputCheckbox = ({onClick,checkedAll}) => {
         <CheckboxContainer>
             <HiddenCheckbox checked={isChecked} onClick={handleCheckboxChange}/>
             <StyledCheckbox isChecked={isChecked}>
-                {isChecked && <HiCheck/> }
+                {isChecked && <HiCheck/>}
             </StyledCheckbox>
         </CheckboxContainer>
     );

@@ -37,33 +37,33 @@ export const StyledFormRow = styled.div`
     ${(props) =>
     props.orientation !== "vertical" && props.calendar !== 'calendar' &&
     css`
-        &:has(button) {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1.2rem;
+                &:has(button) {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 1.2rem;
 
-            @media only screen and (max-width: 700px) {
-                flex-direction: column-reverse;
-            }
-        }
-    `}
+                    @media only screen and (max-width: 700px) {
+                        flex-direction: column-reverse;
+                    }
+                }
+            `}
     ${(props) =>
     props.calendar === 'calendar' &&
     css`
-        display: flex;
-        margin-left: 8px;
-        justify-content: normal;
-        gap: 20rem;
-      `}
+                display: flex;
+                margin-left: 8px;
+                justify-content: normal;
+                gap: 20rem;
+            `}
 `;
 
 export const Label = styled.label`
-  font-weight: 500;
+    font-weight: 500;
 `;
 
 const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
+    font-size: 1.4rem;
+    color: var(--color-red-700);
 `;
 
 function FormRow({label, error, children, orientation, calendar}) {

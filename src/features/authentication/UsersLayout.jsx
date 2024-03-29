@@ -1,13 +1,12 @@
-import React from 'react';
 import styled from "styled-components";
-import NavigationBar from "../../ui/NavigationBar.jsx";
 import Header from "../../ui/Header.jsx";
-import HomeClientLayout from "./HomeClientLayout.jsx";
+import UserTable from "./UserTable.jsx";
+import React from "react";
 
 const StyledHome = styled.div`
     position: relative;
     background-color: var(--color-grey-0);
-    padding: 2rem 4rem;
+    padding: 1rem 4rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -18,21 +17,20 @@ const StyledHome = styled.div`
         align-items: normal;
         
     }
+    @media only screen and (max-width: 1050px) {
+    }
     @media only screen and (max-width: 450px) {
         padding: 2rem 2rem;
     }
 `
-const HomeClient = () => {
+
+const UsersLayout = () => {
     return (
         <StyledHome>
             <Header/>
-
-            <HomeClientLayout/>
-            <NavigationBar/>
-
+            <UserTable/>
         </StyledHome>
-
     );
 };
 
-export default HomeClient;
+export default UsersLayout;

@@ -8,6 +8,10 @@ import Separator from "../../ui/Seperator.jsx";
 import Button from "../../ui/Button.jsx";
 import Cards from "../../ui/Cards.jsx";
 import Card from "../../ui/Card.jsx";
+import {useBuckets} from "../homeadmin/useBuckets.js";
+import {Link} from "react-router-dom";
+import Spinner from "../../ui/Spinner.jsx";
+import React from "react";
 
 
 const Header = styled.div`
@@ -29,295 +33,93 @@ const QR = styled.div`
 
 
 const HomeClientLayout = () => {
+
+    const {isLoading, buckets} = useBuckets();
+
+    if (isLoading) return <Spinner/>
     return (
         <>
 
             <Cards>
-                <Card>
-                    <Header>
-                        <FlexGroup>
-                            <Heading type="h4" subheading>
-                                SemaDaka Event
-                            </Heading>
+                {buckets.map(bucket => (
+                    <Card key={bucket.id}>
+                        <Header>
                             <FlexGroup>
-                                <FlexGroup type="row" contact>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiPhone/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="tel:+38970000000">
-                                                +38970000000
-                                            </ActionLink>
-                                        </Heading>
-                                    </FlexGroup>
-                                    <Separator vertical/>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiMail/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="mailto:contact@gmail.com">
-                                                contact@gmail.com
-                                            </ActionLink>
+                                <Heading type="h4" subheading>
+                                    SemaDaka Event
+                                </Heading>
+                                <FlexGroup>
+                                    <FlexGroup type="row" contact>
+                                        <FlexGroup type="row">
+                                            <Icon>
+                                                <HiPhone/>
+                                            </Icon>
+                                            <Heading type="h4" subheading>
+                                                <ActionLink href="tel:+38970000000">
+                                                    +38970000000
+                                                </ActionLink>
+                                            </Heading>
+                                        </FlexGroup>
+                                        <Separator vertical/>
+                                        <FlexGroup type="row">
+                                            <Icon>
+                                                <HiMail/>
+                                            </Icon>
+                                            <Heading type="h4" subheading>
+                                                <ActionLink href="mailto:contact@gmail.com">
+                                                    contact@gmail.com
+                                                </ActionLink>
 
-                                        </Heading>
+                                            </Heading>
+                                        </FlexGroup>
                                     </FlexGroup>
                                 </FlexGroup>
+
+                                <Heading type="h2">
+                                    Appointment Details
+                                </Heading>
+
+                            </FlexGroup>
+                        </Header>
+
+                        <FlexGroup>
+
+                            <FlexGroup type="row">
+                                <Icon>
+                                    <HiCalendarDays/>
+                                </Icon>
+                                <Heading type="h4" subheading>
+                                    {bucket.date}
+                                </Heading>
+                            </FlexGroup>
+                            <FlexGroup type="row">
+                                <Icon>
+                                    <HiLocationMarker/>
+                                </Icon>
+                                <Heading type="h4" subheading>
+                                    {bucket.location}
+                                </Heading>
                             </FlexGroup>
 
-                            <Heading type="h2">
-                                Appointment Details
-                            </Heading>
 
-                        </FlexGroup>
-                    </Header>
+                            <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
 
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-
-                            <Button sizes="medium">
-                                <FlexGroup type="row">
-                                    <p>View all images (345)</p>
-                                    <Icon type="secondary">
-                                        <HiArrowTopRightOnSquare/>
-                                    </Icon>
-                                </FlexGroup>
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <FlexGroup>
-                            <Heading type="h4" subheading>
-                                SemaDaka Event
-                            </Heading>
-                            <FlexGroup>
-                                <FlexGroup type="row" contact>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiPhone/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="tel:+38970000000">
-                                                +38970000000
-                                            </ActionLink>
-                                        </Heading>
-                                    </FlexGroup>
-                                    <Separator vertical/>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiMail/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="mailto:contact@gmail.com">
-                                                contact@gmail.com
-                                            </ActionLink>
-
-                                        </Heading>
-                                    </FlexGroup>
-                                </FlexGroup>
+                                <Button sizes="medium">
+                                    <Link replace to={`/gallery/${bucket.bucket_name}`}>
+                                        <FlexGroup type="row">
+                                            <p>{`View all images (${bucket.image_urls.length})`}</p>
+                                            <Icon type="secondary">
+                                                <HiArrowTopRightOnSquare/>
+                                            </Icon>
+                                        </FlexGroup>
+                                    </Link>
+                                </Button>
                             </FlexGroup>
 
-                            <Heading type="h2">
-                                Appointment Details
-                            </Heading>
-
-                        </FlexGroup>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
                         </FlexGroup>
 
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-                            <QR></QR>
-                            <Button sizes="medium">
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <FlexGroup>
-                            <Heading type="h4" subheading>
-                                SemaDaka Event
-                            </Heading>
-                            <FlexGroup>
-                                <FlexGroup type="row" contact>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiPhone/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="tel:+38970000000">
-                                                +38970000000
-                                            </ActionLink>
-                                        </Heading>
-                                    </FlexGroup>
-                                    <Separator vertical/>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiMail/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="mailto:contact@gmail.com">
-                                                contact@gmail.com
-                                            </ActionLink>
-
-                                        </Heading>
-                                    </FlexGroup>
-                                </FlexGroup>
-                            </FlexGroup>
-
-                            <Heading type="h2">
-                                Appointment Details
-                            </Heading>
-
-                        </FlexGroup>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-                            <QR></QR>
-                            <Button sizes="medium">
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <FlexGroup>
-                            <Heading type="h4" subheading>
-                                SemaDaka Event
-                            </Heading>
-                            <FlexGroup>
-                                <FlexGroup type="row" contact>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiPhone/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="tel:+38970000000">
-                                                +38970000000
-                                            </ActionLink>
-                                        </Heading>
-                                    </FlexGroup>
-                                    <Separator vertical/>
-                                    <FlexGroup type="row">
-                                        <Icon>
-                                            <HiMail/>
-                                        </Icon>
-                                        <Heading type="h4" subheading>
-                                            <ActionLink href="mailto:contact@gmail.com">
-                                                contact@gmail.com
-                                            </ActionLink>
-
-                                        </Heading>
-                                    </FlexGroup>
-                                </FlexGroup>
-                            </FlexGroup>
-
-                            <Heading type="h2">
-                                Appointment Details
-                            </Heading>
-
-                        </FlexGroup>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-                            <QR></QR>
-                            <Button sizes="medium">
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
+                    </Card>
+                ))}
 
             </Cards>
 

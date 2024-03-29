@@ -55,7 +55,7 @@ const NavigationLayout = styled.div`
     @media only screen and (max-width: 400px) {
         width: 85%;
     }
-    
+
 
 `;
 

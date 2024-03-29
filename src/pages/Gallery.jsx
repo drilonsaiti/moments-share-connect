@@ -60,7 +60,7 @@ const CheckboxContainer = styled.label`
 
 const CustomCheckbox = styled.div`
     width: 2rem;
-    height:2rem;
+    height: 2rem;
     border: 1px solid var(--color-brand-700);
     border-radius: 0.25rem;
     background-color: ${({checked}) => (checked ? 'var(--color-brand-700)' : 'white')};
@@ -68,22 +68,22 @@ const CustomCheckbox = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    
-    
+
+
     svg {
         width: 2rem;
         height: 2rem;
-        fill: var(--color-grey-700); 
-        visibility: ${({ checked }) => (checked ? 'visible' : 'hidden')};
+        fill: var(--color-grey-700);
+        visibility: ${({checked}) => (checked ? 'visible' : 'hidden')};
     }
 `;
 
-const Grid = () => {
+const Gallery = () => {
 
     const [selectGrid, setSelectGrid] = useState();
     const [selectButton, setSelectButton] = useState();
-    const [checkedAll,setCheckedAll] = useState(false);
-    const [selectedImages,setSelectedImages] = useState([])
+    const [checkedAll, setCheckedAll] = useState(false);
+    const [selectedImages, setSelectedImages] = useState([])
 
     const handleSelectGrid = (gridNum) => {
         setSelectGrid(gridNum)
@@ -130,8 +130,8 @@ const Grid = () => {
                             {selectButton && (
                                 <ActionLink style={{fontSize: '1.8rem'}}>
                                     <CheckboxContainer onClick={() => setCheckedAll(!checkedAll)}>
-                                        <CustomCheckbox checked={selectedImages.length > 0 ? checkedAll : false} >
-                                            <HiCheck />
+                                        <CustomCheckbox checked={selectedImages.length > 0 ? checkedAll : false}>
+                                            <HiCheck/>
                                         </CustomCheckbox>
                                         <p>Select all</p>
                                     </CheckboxContainer>
@@ -142,8 +142,8 @@ const Grid = () => {
                             </ActionLink>
 
                         </FlexGroup>
-                        {selectButton &&  <Button size="small" smallButton onClick={handleDownloadSelected}>
-                            <FlexGroup type="row" style={{justifyContent: 'center',gap: '.2rem'}}>
+                        {selectButton && <Button size="small" smallButton onClick={handleDownloadSelected}>
+                            <FlexGroup type="row" style={{justifyContent: 'center', gap: '.2rem'}}>
                                 <HiDownload/> <p>{`Download selected (${selectedImages.length})`}</p>
                             </FlexGroup>
                         </Button>}
@@ -180,7 +180,8 @@ const Grid = () => {
                         </Grids>
                     </FlexGroup>
                 </FlexGroup>
-                <GalleryLayout gridNum={selectGrid} select={selectButton} checkedAll={checkedAll} setCheckedAll={setCheckedAll}
+                <GalleryLayout gridNum={selectGrid} select={selectButton} checkedAll={checkedAll}
+                               setCheckedAll={setCheckedAll}
                                updateSelectedImagesLength={updateSelectedImagesLength}
                 />
 
@@ -191,4 +192,4 @@ const Grid = () => {
     );
 };
 
-export default Grid;
+export default Gallery;

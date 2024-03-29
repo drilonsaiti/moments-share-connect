@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import HomeAdmin from "../features/homeadmin/HomeAdmin.jsx";
 import HomeClient from "../features/homeclient/HomeClient.jsx";
 import Footer from "../ui/Footer.jsx";
 

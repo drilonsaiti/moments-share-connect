@@ -17,7 +17,6 @@ const StyledHome = styled.div`
 
     @media only screen and (min-width: 900px) {
         align-items: normal;
-        height: 95vh;
     }
     @media only screen and (max-width: 1050px) {
     }

@@ -1,8 +1,6 @@
-import Modal from "../../ui/Modal.jsx";
 import Button from "../../ui/Button.jsx";
-import CreateUserForm from "../authentication/CreateUserForm.jsx";
-import React from "react";
 import CreateBucketForm from "./CreateBucketForm.jsx";
+import Modal from "../../ui/Modal.jsx";
 
 const AddBucket = () => {
     return (
@@ -14,7 +12,7 @@ const AddBucket = () => {
                 }}> Add new bucket </Button>
             </Modal.Open>
             <Modal.Window name="add-bucket">
-                <CreateBucketForm />
+                <CreateBucketForm/>
             </Modal.Window>
         </Modal>
     );

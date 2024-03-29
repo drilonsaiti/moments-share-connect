@@ -50,7 +50,7 @@ const SearchInput = (props) => {
 
     return (
         <StyledSearchInput>
-            <input type="text" placeholder="Search..." value={props.value} onChange={props.onChange}/>
+            <input type="text" placeholder="Search by email..." value={props.value} onChange={props.onChange}/>
 
             <StyleBackground>
                 <HiXMark className="icon" onClick={() => props.onChange('')}/>

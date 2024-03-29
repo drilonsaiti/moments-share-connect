@@ -3,6 +3,7 @@ import styled from "styled-components";
 import HomeAdmin from "../features/homeadmin/HomeAdmin.jsx";
 import HomeClient from "../features/homeclient/HomeClient.jsx";
 import Footer from "../ui/Footer.jsx";
+import {useUser} from "../features/authentication/useUser.js";
 
 const Layout = styled.main`
     position: relative;
@@ -23,9 +24,12 @@ const Layout = styled.main`
 `;
 
 const Home = () => {
+    const {user} = useUser();
+    console.log(user)
     const isAdmin = true;
     return (
         <Layout>
+
             {isAdmin ? <HomeAdmin/> : <HomeClient/>}
             <Footer/>
         </Layout>

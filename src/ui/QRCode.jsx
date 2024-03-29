@@ -13,7 +13,7 @@ const QrCodeContainer = styled.div`
 `;
 
 // eslint-disable-next-line react/display-name
-const QrCode = React.forwardRef(({text,displayImg}, ref) => {
+const QrCode = React.forwardRef(({text, displayImg}, ref) => {
     return (
         <QrCodeContainer ref={displayImg ? null : ref} style={{display: `${displayImg ? 'flex' : 'none'}`}}>
             <QRCode value={text} size={displayImg ? 50 : 400}/>

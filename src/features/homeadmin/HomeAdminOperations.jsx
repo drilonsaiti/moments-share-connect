@@ -1,7 +1,6 @@
 import React from 'react';
 import TableOperations from "../../ui/TableOperations.jsx";
 import Filter from "../../ui/Filter.jsx";
-import SearchInput from "../../ui/SearchInput.jsx";
 
 const HomeAdminOperations = () => {
     const optionsTypes = [
@@ -14,7 +13,7 @@ const HomeAdminOperations = () => {
         <TableOperations>
 
             <Filter filterField='types' options={optionsTypes}/>
-            <SearchInput /*value={searchInput} onChange={handleSearchInputChange*//>
+
 
         </TableOperations>
     );

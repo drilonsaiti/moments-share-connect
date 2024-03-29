@@ -4,7 +4,7 @@ import Heading from "../../ui/Heading.jsx";
 import {HiCalendarDays, HiPhone} from "react-icons/hi2";
 import FlexGroup from "../../ui/FlexGroup.jsx";
 import Icon from "../../ui/Icon.jsx";
-import {HiLocationMarker, HiMail} from "react-icons/hi";
+import {HiLocationMarker, HiMail, HiPencil, HiTrash} from "react-icons/hi";
 import Separator from "../../ui/Seperator.jsx";
 import Button from "../../ui/Button.jsx";
 import React, {useRef, useState} from "react";
@@ -13,12 +13,19 @@ import Card from "../../ui/Card.jsx";
 import AddUser from "../authentication/AddUser.jsx";
 import AddBucket from "./AddBucket.jsx";
 import QrCode from "../../ui/QRCode.jsx";
+import CreateCabinForm from "./CreateBucketForm.jsx";
+import ConfirmDelete from "../../ui/ConfirmDelete.jsx";
+import {useBuckets} from "./useBuckets.js";
+import Spinner from "../../ui/Spinner.jsx";
+import Menus from "../../ui/Menus.jsx";
+import Modal from "../../ui/Modal.jsx";
+import {useDeleteBucket} from "./useDeleteBucket.js";
+import SearchInput from "../../ui/SearchInput.jsx";
+import {useSearchParams} from "react-router-dom";
 
 
 const Header = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    
 `;
 
 const ActionLink = styled.a`
@@ -34,9 +41,11 @@ const QR = styled.div`
 
 
 const HomeAdminLayout = () => {
-
+    const {isLoading, buckets} = useBuckets();
+    const {isDeleting, deleteBucket} = useDeleteBucket();
     const qrCodeRef = useRef(null);
-
+    const [searchInput, setSearchInput] = useState('');
+    const [searchParams] = useSearchParams();
     const downloadQrCode = (fileName) => {
         if (!qrCodeRef.current) {
             console.error("QR code ref is null.");
@@ -70,332 +79,141 @@ const HomeAdminLayout = () => {
     };
 
 
+    if (isLoading) return <Spinner/>
+
+    const filterValue = searchParams.get("types") || "all";
+
+    let filteredBuckets;
+    if (filterValue === "all") filteredBuckets = buckets;
+    if (filterValue === "next")
+        filteredBuckets = buckets.filter((bucket) => new Date(bucket.date) >= new Date());
+    if (filterValue === "past")
+        filteredBuckets = buckets.filter((bucket) => new Date(bucket.date) <= new Date());
+
+    const handleSearchInputChange = (input) => {
+        input === '' ? setSearchInput('') :
+            setSearchInput(event.target.value);
+    };
+
+    const searchedBuckets = filteredBuckets?.filter((bucket) => {
+        const searchField = bucket.email
+        return searchField.toLowerCase().includes(searchInput.toLowerCase());
+    });
 
     return (
         <>
             <FlexGroup buttons>
 
-                <AddUser />
-               <AddBucket />
+                <AddUser/>
+                <AddBucket/>
             </FlexGroup>
 
-            <HomeAdminOperations/>
+            <FlexGroup type="row" style={{alignSelf: 'center'}} operations>
+                <SearchInput value={searchInput} onChange={handleSearchInputChange}/>
+                <HomeAdminOperations/>
+            </FlexGroup>
             <Cards>
-                <Card>
-                    <Header>
-                        <Heading type="h1">
-                            John Smith
-                        </Heading>
-                    </Header>
+                {searchedBuckets.map(bucket => (
 
-                    <FlexGroup>
+                    <Card key={bucket.id}>
 
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
+                        <Header>
+                            <FlexGroup type="row" style={{justifyContent: 'space-between'}}>
+                                <Heading type="h1">
+                                    {bucket.full_name}
+                                </Heading>
+                                <Menus>
+                                    <Modal>
 
-                        <FlexGroup type="row" contact>
+                                        <Menus.Menu>
+                                            <Menus.Toggle id={bucket.id}/>
+
+                                            <Menus.List id={bucket.id}>
+
+
+                                                <Modal.Open opens="edit">
+                                                    <Menus.Button icon={<HiPencil/>}>Edit</Menus.Button>
+                                                </Modal.Open>
+
+                                                <Modal.Open opens="delete">
+                                                    <Menus.Button icon={<HiTrash/>}>Delete</Menus.Button>
+                                                </Modal.Open>
+                                            </Menus.List>
+                                            <Modal.Window name="edit">
+                                                <CreateCabinForm bucketToEdit={bucket}/>
+                                            </Modal.Window>
+
+                                            <Modal.Window name="delete">
+                                                <ConfirmDelete
+                                                    resourceName="cabins"
+                                                    disabled={isDeleting}
+                                                    onConfirm={() => deleteBucket(bucket.id)}
+                                                />
+                                            </Modal.Window>
+                                        </Menus.Menu>
+                                    </Modal>
+                                </Menus>
+
+                            </FlexGroup>
+                        </Header>
+
+                        <FlexGroup>
+
                             <FlexGroup type="row">
                                 <Icon>
-                                    <HiPhone/>
+                                    <HiCalendarDays/>
                                 </Icon>
                                 <Heading type="h4" subheading>
-                                    <ActionLink href="tel:+38970000000">
-                                        +38970000000
-                                    </ActionLink>
+                                    {bucket.date.toString().replaceAll("T", " ").slice(0, bucket.date.toString().length - 3)}
                                 </Heading>
                             </FlexGroup>
-                            <Separator vertical/>
                             <FlexGroup type="row">
                                 <Icon>
-                                    <HiMail/>
+                                    <HiLocationMarker/>
                                 </Icon>
                                 <Heading type="h4" subheading>
-                                    <ActionLink href="mailto:contact@gmail.com">
-                                        contact@gmail.com
-                                    </ActionLink>
-
+                                    {bucket.location}
                                 </Heading>
                             </FlexGroup>
-                        </FlexGroup>
 
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
+                            <FlexGroup type="row" contact>
+                                <FlexGroup type="row">
+                                    <Icon>
+                                        <HiPhone/>
+                                    </Icon>
+                                    <Heading type="h4" subheading>
+                                        <ActionLink href={`href:${bucket.contact_number}`}>
+                                            {bucket.contact_number}
+                                        </ActionLink>
+                                    </Heading>
+                                </FlexGroup>
+                                <Separator vertical/>
+                                <FlexGroup type="row">
+                                    <Icon>
+                                        <HiMail/>
+                                    </Icon>
+                                    <Heading type="h4" subheading>
+                                        <ActionLink href={`mailto:${bucket.email}`}>
+                                            {bucket.email}
+                                        </ActionLink>
 
-                                <QrCode  text="test@gmail.com-2024-10-05" displayImg/>
-                            <QrCode  text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
-                            <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <Heading type="h1">
-                            John Smith
-                        </Heading>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" contact>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiPhone/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="tel:+38970000000">
-                                        +38970000000
-                                    </ActionLink>
-                                </Heading>
+                                    </Heading>
+                                </FlexGroup>
                             </FlexGroup>
-                            <Separator vertical/>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiMail/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="mailto:contact@gmail.com">
-                                        contact@gmail.com
-                                    </ActionLink>
 
-                                </Heading>
+                            <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
+
+                                <QrCode text="test@gmail.com-2024-10-05" displayImg/>
+                                <QrCode text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
+                                <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
+                                    Download QR code
+                                </Button>
                             </FlexGroup>
+
                         </FlexGroup>
+                    </Card>
 
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-
-                            <QrCode  text="test@gmail.com-2024-10-05" displayImg/>
-                            <QrCode  text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
-                            <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <Heading type="h1">
-                            John Smith
-                        </Heading>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" contact>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiPhone/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="tel:+38970000000">
-                                        +38970000000
-                                    </ActionLink>
-                                </Heading>
-                            </FlexGroup>
-                            <Separator vertical/>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiMail/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="mailto:contact@gmail.com">
-                                        contact@gmail.com
-                                    </ActionLink>
-
-                                </Heading>
-                            </FlexGroup>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-
-                            <QrCode  text="test@gmail.com-2024-10-05" displayImg/>
-                            <QrCode  text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
-                            <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <Heading type="h1">
-                            John Smith
-                        </Heading>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" contact>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiPhone/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="tel:+38970000000">
-                                        +38970000000
-                                    </ActionLink>
-                                </Heading>
-                            </FlexGroup>
-                            <Separator vertical/>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiMail/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="mailto:contact@gmail.com">
-                                        contact@gmail.com
-                                    </ActionLink>
-
-                                </Heading>
-                            </FlexGroup>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-
-                            <QrCode  text="test@gmail.com-2024-10-05" displayImg/>
-                            <QrCode  text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
-                            <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
-                <Card>
-                    <Header>
-                        <Heading type="h1">
-                            John Smith
-                        </Heading>
-                    </Header>
-
-                    <FlexGroup>
-
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiCalendarDays/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                18.05.2024 14:00
-                            </Heading>
-                        </FlexGroup>
-                        <FlexGroup type="row">
-                            <Icon>
-                                <HiLocationMarker/>
-                            </Icon>
-                            <Heading type="h4" subheading>
-                                Test route,Test, Test 10
-                            </Heading>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" contact>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiPhone/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="tel:+38970000000">
-                                        +38970000000
-                                    </ActionLink>
-                                </Heading>
-                            </FlexGroup>
-                            <Separator vertical/>
-                            <FlexGroup type="row">
-                                <Icon>
-                                    <HiMail/>
-                                </Icon>
-                                <Heading type="h4" subheading>
-                                    <ActionLink href="mailto:contact@gmail.com">
-                                        contact@gmail.com
-                                    </ActionLink>
-
-                                </Heading>
-                            </FlexGroup>
-                        </FlexGroup>
-
-                        <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
-
-                            <QrCode  text="test@gmail.com-2024-10-05" displayImg/>
-                            <QrCode  text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
-                            <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
-                                Download QR code
-                            </Button>
-                        </FlexGroup>
-
-                    </FlexGroup>
-
-                </Card>
+                ))}
 
 
             </Cards>

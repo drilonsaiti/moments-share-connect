@@ -13,7 +13,7 @@ const AddUser = () => {
                 }}> Add new user </Button>
             </Modal.Open>
             <Modal.Window name="add-user">
-                <CreateUserForm />
+                <CreateUserForm/>
             </Modal.Window>
         </Modal>
     );

@@ -3,6 +3,13 @@ import Paragraph from "./Paragraph.jsx";
 import styled from "styled-components";
 
 
+const FooterContainer = styled.div`
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+`
+
 const ActionLink = styled.a`
     text-decoration: underline;
 
@@ -16,9 +23,9 @@ const ActionLink = styled.a`
         font-size: 1.8rem;
         font-weight: 500;
         transition: all 0.3s;
+        
     }
-
-    /* This works because react-router places the active class on the active NavLink */
+    
 
     &:hover,
     &:active,
@@ -31,9 +38,12 @@ const ActionLink = styled.a`
 `
 const Footer = () => {
     return (
+
+
         <Paragraph>
             Created by <ActionLink href="https://github.com/drilonsaiti">Drilon Saiti</ActionLink>
         </Paragraph>
+
     );
 };
 
