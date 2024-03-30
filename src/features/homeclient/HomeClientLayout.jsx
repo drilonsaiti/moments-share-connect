@@ -8,10 +8,11 @@ import Separator from "../../ui/Seperator.jsx";
 import Button from "../../ui/Button.jsx";
 import Cards from "../../ui/Cards.jsx";
 import Card from "../../ui/Card.jsx";
-import {useBuckets} from "../homeadmin/useBuckets.js";
 import {Link} from "react-router-dom";
 import Spinner from "../../ui/Spinner.jsx";
 import React from "react";
+import {useBucket} from "./useBucket.js";
+import {useCurrentUser} from "../authentication/useCurrentUser.js";
 
 
 const Header = styled.div`
@@ -33,15 +34,18 @@ const QR = styled.div`
 
 
 const HomeClientLayout = () => {
+    const {data, isLoading: isLoadingCurrentUser} = useCurrentUser();
+    const {isLoading, bucket} = useBucket(data?.email);
 
-    const {isLoading, buckets} = useBuckets();
 
-    if (isLoading) return <Spinner/>
+    if (isLoading || isLoadingCurrentUser) return <Spinner/>
+
+    console.log("BUCKETS", bucket)
     return (
         <>
 
             <Cards>
-                {buckets.map(bucket => (
+                {bucket?.map(bucket => (
                     <Card key={bucket.id}>
                         <Header>
                             <FlexGroup>

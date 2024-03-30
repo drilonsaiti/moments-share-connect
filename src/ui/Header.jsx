@@ -1,9 +1,13 @@
 import FlexGroup from "./FlexGroup.jsx";
 import styled from "styled-components";
 import {NavLink} from "react-router-dom";
-import {HiArrowRightOnRectangle, HiUser} from "react-icons/hi2";
+import {HiArrowRightOnRectangle} from "react-icons/hi2";
 import Seperator from "./Seperator.jsx";
 import DarkModeToggle from "./DarkModeToggle.jsx";
+import ButtonIcon from "./ButtonIcon.jsx";
+import SpinnerMini from "./SpinnerMini.jsx";
+import {useLogout} from "../features/authentication/useLogout.js";
+import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 
 
 const StyledNavLink = styled(NavLink)`
@@ -50,27 +54,35 @@ const StyledNavLink = styled(NavLink)`
 
 `;
 const Header = () => {
+    const {logout, isLoading} = useLogout();
+    const {data, isLoading: isLoadingUser} = useCurrentUser();
+
+    if (isLoadingUser) return <SpinnerMini/>;
+
+    const isAdmin = data.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
+
     return (
         <FlexGroup style={{gap: 0}}>
             <FlexGroup type="row" style={{alignSelf: 'center', justifyContent: 'center'}} header>
-                <StyledNavLink replace to="/home">
+                {isAdmin && <StyledNavLink replace to="/home">
                     <p className="name">Home</p>
                 </StyledNavLink>
+                }
                 <StyledNavLink replace to="/dashboard">
 
                     <p className="name">Dashboard</p>
                 </StyledNavLink>
-                <StyledNavLink replace to="/users">
+                {isAdmin && <StyledNavLink replace to="/users">
                     <p className="name">Users</p>
-                </StyledNavLink>
+                </StyledNavLink>}
                 <FlexGroup type="row" style={{gap: '2rem'}}>
                     <DarkModeToggle navBar={false}/>
-                    <StyledNavLink replace to="/profile" style={{alignSelf: 'center', padding: 0}}>
+                    {/*<StyledNavLink replace to="/profile" style={{alignSelf: 'center', padding: 0}}>
                         <HiUser/>
-                    </StyledNavLink>
-                    <StyledNavLink replace to="profile" style={{alignSelf: 'center', padding: 0}}>
-                        <HiArrowRightOnRectangle/>
-                    </StyledNavLink>
+                    </StyledNavLink>*/}
+                    <ButtonIcon disabled={isLoading} onClick={logout}>
+                        {!isLoading ? <HiArrowRightOnRectangle/> : <SpinnerMini/>}
+                    </ButtonIcon>
                 </FlexGroup>
 
             </FlexGroup>

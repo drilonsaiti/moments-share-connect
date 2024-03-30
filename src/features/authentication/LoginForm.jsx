@@ -4,6 +4,8 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import styled from "styled-components";
+import {useQueryClient} from "@tanstack/react-query";
+import {useLogin} from "./useLogin.js";
 
 const Container = styled.div`
     display: flex;
@@ -34,8 +36,6 @@ const Card = styled.div`
 function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    /*/!*const {register,formState,getValues,reset,handleSubmit} = useForm();
-    const {errors} = formState;*!/
     const {login, isLoading, data} = useLogin();
     const queryClient = useQueryClient();
 
@@ -54,17 +54,17 @@ function LoginForm() {
 
     }
 
-    const handleLogin = (email,password) => {
+    const handleLogin = (email, password) => {
         const data = {
             email: email,
             password: password
         }
         login(data)
-    }*/
+    }
 
     return (<>
 
-            <Form /*onSubmit={handleSubmit}*/>
+            <Form onSubmit={handleSubmit}>
                 <FormRow label="Email address" orientation="vertical">
                     <Input
                         type="email"

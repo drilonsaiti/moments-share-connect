@@ -6,14 +6,16 @@ import FlexGroup from "../../ui/FlexGroup.jsx";
 import Button from "../../ui/Button.jsx";
 import Footer from "../../ui/Footer.jsx";
 import DarkModeToggle from "../../ui/DarkModeToggle.jsx";
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import ButtonIconSocial from "../../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
-import {HiCamera} from "react-icons/hi2";
 import {useWindowSize} from "@tofusoup429/use-window-size";
-import Camera, {FACING_MODES} from 'react-html5-camera-photo';
+import Camera, {FACING_MODES, IMAGE_TYPES} from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import ModalCamera from "../../ui/ModalCamera.jsx";
+import {useUploadImage} from "./useUploadImage.js";
+import Compressor from 'compressorjs';
+import {useParams} from "react-router-dom";
 
 const StyledHome = styled.div`
     position: relative;
@@ -71,47 +73,68 @@ const ActionLink = styled.a`
     cursor: pointer;
 `
 
-function capture(imgSrc) {
-    console.log(imgSrc);
-}
 
-const HomeUser = () => {
-    const fileInputRef = useRef(null);
+const HomeUser = ({onCloseModal, onCloseHandle}) => {
     const [image, setImage] = useState();
-    let {width, height} = useWindowSize()
-    const cam = useRef(null);
     const [isOpenCamera, setIsOpenCamera] = useState(false);
-
+    let {width, height} = useWindowSize()
+    const {bucketId} = useParams();
+    const {uploadImage, isCreating} = useUploadImage();
+    const [compressedFile, setCompressedFile] = useState(null);
     const handleButtonClick = () => {
+
+    };
+
+    async function handleTakePhoto() {
+
+        if (!image) {
+            console.error('Data URI is undefined.');
+            return;
+        }
+
+        const byteString = atob(image.split(',')[1]);
+        const mimeString = image.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        const blob = new Blob([ab], {type: mimeString});
+        const filename = `${bucketId}-${Math.random()}`;
+
+        const file = new File([blob], filename, {type: mimeString});
+        const compressor = new Compressor(file, {
+            quality: 0.8,
+            convertTypes: ["image/jpeg"],
+            maxWidth: Infinity,
+            maxHeight: Infinity,
+            convertSize: 5000000,
+            success: (compressedResult) => {
+                setCompressedFile(compressedResult)
+            },
+        });
+
+        console.log(onCloseModal);
+        uploadImage({image: compressor.file, filename, bucketId}, {
+            onSuccess: () => {
+                setImage(null);
+                onCloseModal?.();
+                onCloseHandle?.();
+                setIsOpenCamera(false)
+            },
+        });
+
+    }
+
+    const resetImage = () => {
+        setImage(null);
+        setIsOpenCamera(true)
+    };
+
+    const handleIsOpenCamera = () => {
         setIsOpenCamera(true);
-        fileInputRef.current.click();
-    };
-
-    function handleTakePhoto(dataUri) {
-        // Do stuff with the photo...
-        setImage(dataUri);
-        console.log('takePhoto', dataUri);
     }
-
-    function handleTakePhotoAnimationDone(dataUri) {
-        // Do stuff with the photo...
-        console.log('takePhoto');
-    }
-
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            const imageUrl = event.target.result;
-            // Set the imageUrl to state or use it directly to display the image
-            setImage(imageUrl);
-            console.log(imageUrl);
-        };
-
-        reader.readAsDataURL(file);
-    };
     return (
         <StyledHome>
             <FlexGroup type="row" style={{justifyContent: 'center', alignSelf: 'start'}}>
@@ -144,59 +167,41 @@ const HomeUser = () => {
                 </Paragraph>
             </FlexGroup>
 
-            {/*<Button size="large" style={{alignSelf: 'center'}}>
-                    Take a photo
-                </Button>*/}
             <ButtonContainer style={{alignSelf: 'center'}}>
-                {/* <input
-                accept="image/*"
-                id="icon-button-file"
-                type="file"
-                capture="user"
-                onChange={handleFileChange}
-                ref={fileInputRef}
-                style={{display: 'none'}}
-            />
-            <Button
-                variant="contained"
-                color="primary"
-                startIcon={<HiCamera/>}
-                onClick={handleButtonClick}
-            >
-                Take a photo
-            </Button>
-            </ButtonContainer>
-            {image && (
-                <img
-                    src={image}
-                    alt="Captured Image"
-                    style={{ transform:'scaleX(-1)'}}
-                />
-            )}*/}
-                <ModalCamera>
-                    <ModalCamera.Open opens={"take-photo"}>
+
+                <ModalCamera resetImage={resetImage}>
+
+                    <ModalCamera.Open opens={"take-photo"} handleIsOpenCamera={handleIsOpenCamera}>
                         <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<HiCamera/>}
-                            onClick={handleButtonClick}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleButtonClick();
+                                setImage(null)
+                            }}
                         > Take a photo
                         </Button>
                     </ModalCamera.Open>
-                    <ModalCamera.Window name={"take-photo"}>
-                        <Camera
-                            onTakePhoto={(dataUri) => {
-                                handleTakePhoto(dataUri);
-                            }}
-                            onTakePhotoAnimationDone={() => {
-                                handleTakePhotoAnimationDone();
-                            }}
-                            isMaxResolution={true}
-                            isImageMirror={true}
-                            isFullscreen={true}
-                            idealFacingMode={FACING_MODES.USER}
-                        />
-                    </ModalCamera.Window>
+                    {image &&
+                        <ModalCamera.Window name={"take-photo"} imageDisplay={image !== null} resetImage={resetImage}
+                                            handleTakePhoto={handleTakePhoto}>
+                            <img src={image} alt="image"/>
+                        </ModalCamera.Window>}
+                    {(!image && isOpenCamera) &&
+                        <ModalCamera.Window name={"take-photo"} imageDisplay={image} handleTakePhoto={handleTakePhoto}>
+
+                            <Camera
+                                onTakePhoto={(dataUri) => {
+                                    setImage(dataUri);
+
+                                }}
+
+                                isMaxResolution={true}
+                                isImageMirror={true}
+                                isFullscreen={true}
+                                idealFacingMode={FACING_MODES.USER}
+                                imageType={IMAGE_TYPES.JPG}
+                            />
+                        </ModalCamera.Window>}
                 </ModalCamera>
             </ButtonContainer>
             <FooterContainer>

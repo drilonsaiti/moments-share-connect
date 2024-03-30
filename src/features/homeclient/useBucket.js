@@ -1,17 +1,16 @@
 import {useQuery} from "@tanstack/react-query";
-import {useParams} from "react-router-dom";
 import {getBucketById} from "../../services/apiBucket.js";
 
-export function useBucket() {
-    const {bucketId} = useParams();
+
+export function useBucket(email) {
 
     const {
         isLoading,
         data: bucket,
         error,
     } = useQuery({
-        queryKey: ["bucket", bucketId],
-        queryFn: () => getBucketById(bucketId),
+        queryKey: ["bucket", email],
+        queryFn: () => getBucketById(email),
         retry: false,
     });
 

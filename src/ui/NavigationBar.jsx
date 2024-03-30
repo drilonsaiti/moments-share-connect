@@ -1,8 +1,12 @@
 import React from 'react';
 import styled, {keyframes} from "styled-components";
 import {NavLink} from "react-router-dom";
-import {HiArrowRightOnRectangle, HiChartBar, HiHome, HiUser, HiUsers} from "react-icons/hi2";
+import {HiArrowRightOnRectangle, HiChartBar, HiHome, HiUsers} from "react-icons/hi2";
 import DarkModeToggle from "./DarkModeToggle.jsx";
+import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
+import SpinnerMini from "./SpinnerMini.jsx";
+import {useLogout} from "../features/authentication/useLogout.js";
+import ButtonIcon from "./ButtonIcon.jsx";
 
 const NavigationLayout = styled.div`
     position: fixed;
@@ -120,6 +124,13 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const NavigationBar = () => {
+    const {logout, isLoading} = useLogout();
+    const {data, isLoading: isLoadingUser} = useCurrentUser();
+
+    if (isLoadingUser) return <SpinnerMini/>;
+
+    const isAdmin = data.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
+
     return (
         <NavigationLayout>
             <NavigationItems>
@@ -127,21 +138,21 @@ const NavigationBar = () => {
                     <HiHome/>
                     <p className="name">home</p>
                 </StyledNavLink>
-                <StyledNavLink replace to="dashboard">
+                {isAdmin && <StyledNavLink replace to="dashboard">
                     <HiChartBar/>
                     <p className="name">dashboard</p>
-                </StyledNavLink>
-                <StyledNavLink replace to="clients">
+                </StyledNavLink>}
+                {isAdmin && <StyledNavLink replace to="users">
                     <HiUsers/>
                     <p className="name">users</p>
-                </StyledNavLink>
-                <StyledNavLink replace to="profile">
+                </StyledNavLink>}
+                {/*<StyledNavLink replace to="profile">
                     <HiUser/>
                     <p className="name">profile</p>
-                </StyledNavLink>
-                <StyledNavLink replace to="logout">
-                    <HiArrowRightOnRectangle/>
-                </StyledNavLink>
+                </StyledNavLink>*/}
+                <ButtonIcon disabled={isLoading} onClick={logout}>
+                    {!isLoading ? <HiArrowRightOnRectangle/> : <SpinnerMini/>}
+                </ButtonIcon>
                 <DarkModeToggle navBar={true}/>
 
             </NavigationItems>

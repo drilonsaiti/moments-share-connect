@@ -145,9 +145,9 @@ const HomeAdminLayout = () => {
 
                                             <Modal.Window name="delete">
                                                 <ConfirmDelete
-                                                    resourceName="cabins"
+                                                    resourceName="bucket"
                                                     disabled={isDeleting}
-                                                    onConfirm={() => deleteBucket(bucket.id)}
+                                                    onConfirm={() => deleteBucket(bucket.id,bucket.bucket_name)}
                                                 />
                                             </Modal.Window>
                                         </Menus.Menu>
@@ -203,9 +203,9 @@ const HomeAdminLayout = () => {
 
                             <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
 
-                                <QrCode text="test@gmail.com-2024-10-05" displayImg/>
-                                <QrCode text="test@gmail.com-2024-10-05" ref={qrCodeRef}/>
-                                <Button sizes="medium" onClick={() => downloadQrCode('test@gmail.com-2024-10-05')}>
+                                <QrCode text={bucket.bucket_name} displayImg/>
+                                <QrCode text={bucket.bucket_name} ref={qrCodeRef}/>
+                                <Button sizes="medium" onClick={() => downloadQrCode(`QRCode-${bucket.bucket_name}`)}>
                                     Download QR code
                                 </Button>
                             </FlexGroup>

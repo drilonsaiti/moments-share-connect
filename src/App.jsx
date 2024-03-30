@@ -9,6 +9,10 @@ import HomeClientPage from "./pages/HomeClientPage.jsx";
 import {Toaster} from "react-hot-toast";
 import Users from "./pages/Users.jsx";
 import TakePhoto from "./pages/TakePhoto.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import ProtectedRoute from "./ui/ProtectedRoute.jsx";
+import AppLayout from "./ui/AppLayout.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -27,13 +31,25 @@ function App() {
                 <GlobalStyles/>
                 <BrowserRouter>
                     <Routes>
-                        <Route index element={<Navigate replace to={"/home"}/>}/>
+                        <Route
+                            element={
+                                <ProtectedRoute>
+                                    <AppLayout/>
+                                </ProtectedRoute>
+                            }
+                        >
+
+                            <Route index element={<Navigate replace to={"/home"}/>}/>
+
+                            <Route path="client" element={<HomeClientPage/>}/>
+                            <Route path="dashboard" element={<Dashboard/>}/>
+                            <Route path="take-photo/:bucketId" element={<TakePhoto/>}/>
+                            <Route path="users" element={<Users/>}/>
+                            <Route path="gallery/:bucketId" element={<Gallery/>}/>
+                            <Route path="home" element={<Home/>}/>
+                        </Route>
                         <Route path="login" element={<Login/>}/>
-                        <Route path="client" element={<HomeClientPage/>}/>
-                        <Route path="take-photo" element={<TakePhoto/>}/>
-                        <Route path="users" element={<Users/>}/>
-                        <Route path="gallery/:bucketId" element={<Gallery/>}/>
-                        <Route path="*" element={<Home/>}/>
+                        <Route path="*" element={<PageNotFound/>}/>
                     </Routes>
                 </BrowserRouter>
 

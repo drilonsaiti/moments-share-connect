@@ -3,7 +3,8 @@ import styled from "styled-components";
 import HomeAdmin from "../features/homeadmin/HomeAdmin.jsx";
 import HomeClient from "../features/homeclient/HomeClient.jsx";
 import Footer from "../ui/Footer.jsx";
-import {useUser} from "../features/authentication/useUser.js";
+import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
+import SpinnerMini from "../ui/SpinnerMini.jsx";
 
 const Layout = styled.main`
     position: relative;
@@ -24,9 +25,11 @@ const Layout = styled.main`
 `;
 
 const Home = () => {
-    const {user} = useUser();
-    console.log(user)
-    const isAdmin = true;
+    const {data, isLoading: isLoadingUser} = useCurrentUser();
+
+    if (isLoadingUser) return <SpinnerMini/>;
+
+    const isAdmin = data.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
     return (
         <Layout>
 

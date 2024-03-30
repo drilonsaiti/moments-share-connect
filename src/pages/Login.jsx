@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Heading from "../ui/Heading.jsx";
 import LoginForm from "../features/authentication/LoginForm.jsx";
+import Footer from "../ui/Footer.jsx";
 
 
 const LoginLayout = styled.main`
@@ -15,8 +16,10 @@ const LoginLayout = styled.main`
 
 function Login() {
     return <LoginLayout>
-        <Heading type="login">Log in to your account</Heading>
+        <Heading type="login">SemaDaka Events</Heading>
+        <Heading type="h2" style={{textAlign: 'center'}}>Log in to your account</Heading>
         <LoginForm/>
+        <Footer/>
     </LoginLayout>;
 }
 
