@@ -41,7 +41,7 @@ const Footer = () => {
 
 
         <Paragraph>
-            Created by <ActionLink href="https://github.com/drilonsaiti">Drilon Saiti</ActionLink>
+            Created by <ActionLink href="https://drilonsaiti.github.io">Drilon Saiti</ActionLink>
         </Paragraph>
 
     );
