@@ -43,11 +43,12 @@ function App() {
 
                             <Route path="client" element={<HomeClientPage/>}/>
                             <Route path="dashboard" element={<Dashboard/>}/>
-                            <Route path="take-photo/:bucketId" element={<TakePhoto/>}/>
+
                             <Route path="users" element={<Users/>}/>
                             <Route path="gallery/:bucketId" element={<Gallery/>}/>
                             <Route path="home" element={<Home/>}/>
                         </Route>
+                        <Route path="take-photo/:bucketId" element={<TakePhoto/>}/>
                         <Route path="login" element={<Login/>}/>
                         <Route path="*" element={<PageNotFound/>}/>
                     </Routes>
