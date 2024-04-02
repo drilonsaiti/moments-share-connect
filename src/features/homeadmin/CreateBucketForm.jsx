@@ -19,8 +19,8 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
     const isWorking = isCreating || isEditing;
     const {id: editId, ...editValues} = bucketToEdit;
     const isEditSession = Boolean(editId);
-    const dateTimeLocalNow = new Date(new Date.getTime() - new Date().getTimezoneOffset() * 60_000)
-        .toString().slice(0, 16);
+    const dateTimeLocalNow = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+        .toString().slice(0, 21);
 
     const {register, handleSubmit, reset, getValues, formState, setValue} = useForm({
         defaultValues: isEditSession ? editValues : {},
@@ -29,18 +29,18 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
     const [email, setEmail] = useState("");
 
     useEffect(() => {
+
         const fetchUserData = async () => {
 
 
             if (email) {
                 const data = await findByEmail(email);
-                console.log(data);
 
                 if (data) {
-                    setValue('full_name', data.full_name);
-                    setValue('contact_number', data.contact_number);
-                    setValue('location', data.location);
-                    setValue('date', data.date)
+
+                    setValue('full_name', data.fullName);
+                    setValue('contact_number', data.contactNumber);
+
                 }
             }
         };
@@ -48,7 +48,7 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
         if (email) {
             fetchUserData();
         }
-    }, [setEmail, email]);
+    }, [setEmail, email, getValues, setValue]);
 
     function onSubmit(data) {
 
@@ -83,9 +83,6 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
         onCloseModal?.();
     }
 
-    function onError(errors) {
-        // console.log(errors);
-    }
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -93,20 +90,24 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                 <Input
                     type="text"
                     id="full_name"
+                    name="full_name"
                     disabled={isWorking}
+                    value={getValues('full_name') ?? ''}
                     {...register("full_name", {required: "This field is required"})}
                 />
             </FormRow>
 
             <FormRow label="Email address" error={errors?.email?.message}>
-
                 <Input
                     type="email"
                     id="email"
                     disabled={isWorking}
-                    onChange={(e) => setEmail(e.target.value)}
+
                     {...register("email", {
                         required: "This field is required",
+                        onChange: (e) => {
+                            setEmail(e.target.value)
+                        },
                         pattern: {
                             value: /\S+@\S+\.\S+/,
                             message: "Please provide a valid email address",
@@ -118,6 +119,9 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                 <Input
                     type="text"
                     id="contact_number"
+                    name="contact_number"
+
+                    value={getValues('contact_number') ?? ''}
                     disabled={isWorking}
                     {...register("contact_number",)}
                 />
@@ -127,6 +131,9 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                 <Input
                     type="text"
                     id="location"
+                    value={getValues('location') ?? ''}
+                    name="location"
+
                     disabled={isWorking}
                     {...register("location", {required: "This field is required"})}
                 />
@@ -139,8 +146,6 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                 <Input
                     type="datetime-local"
                     id="date"
-                    defaultValue={dateTimeLocalNow}
-                    min={dateTimeLocalNow}
                     disabled={isWorking}
                     {...register("date", {
                         required: "This field is required",

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Footer from "../ui/Footer.jsx";
-import React from "react";
 import UsersLayout from "../features/authentication/UsersLayout.jsx";
 import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 import SpinnerMini from "../ui/SpinnerMini.jsx";

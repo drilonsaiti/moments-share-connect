@@ -60,6 +60,17 @@ export async function createUserApi({fullName, email, contactNumber}) {
 
 }
 
+export async function editCurrentUser(updateData) {
+    const {data, error} = await supabase.auth.updateUser(updateData);
+    if (error) throw new Error(error.message);
+
+    const {data2, error2} = await supabase.from('users').update(updateData);
+
+    if (error2) throw new Error(error2.message);
+
+    return data;
+}
+
 export async function findByEmail(email) {
     const {data, error} = await supabase.from('users')
         .select("*").eq("email", email).single();
@@ -74,7 +85,6 @@ export async function getUsers() {
     let {data, error} = await supabase
         .from('users')
         .select('*')
-    console.log(data);
     if (error) {
         console.error(error);
         throw new Error("UsersLayout could not be loaded");

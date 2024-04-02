@@ -28,7 +28,8 @@ const TodayItem = ({activity}) => {
         <StyledTodayItem>
             {new Date(date) === Date.now() ? <Tag type="green">Today</Tag> : <Tag type="blue">Next day</Tag>}
 
-            <Guest>{email}</Guest>
+            <Guest>
+                {email}</Guest>
             <Guest>{date.replaceAll("T", " ")}</Guest>
             <Guest>{full_name}</Guest>
             <Guest>{location}</Guest>

@@ -40,7 +40,6 @@ const HomeClientLayout = () => {
 
     if (isLoading || isLoadingCurrentUser) return <Spinner/>
 
-    console.log("BUCKETS", bucket)
     return (
         <>
 

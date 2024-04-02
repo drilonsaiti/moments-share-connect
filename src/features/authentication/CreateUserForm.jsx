@@ -5,31 +5,48 @@ import Button from "../../ui/Button.jsx";
 import {useForm} from "react-hook-form";
 import {useSignup} from "./useSignUp.js";
 import {useCreateUser} from "./useCreateUser.js";
+import {useEditUser} from "./useEditUser.js";
 
-function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
+function CreateCabinForm({userToEdit = {}, onCloseModal}) {
 
     const {signup, isLoading} = useSignup();
     const {createUser, isLoading: loadingCreateUser} = useCreateUser();
-    const {register, handleSubmit, reset, getValues, formState} = useForm({});
+    const {editUser, isUpdating} = useEditUser();
+    const {id, ...editValues} = userToEdit;
+    const isEditSession = Boolean(id);
+    const {register, handleSubmit, reset, getValues, formState, setValue} = useForm({
+        defaultValues: isEditSession ? editValues : {},
+    });
     const {errors} = formState;
+    const isWorking = loadingCreateUser || isUpdating;
 
     function onSubmit({fullName, email, password, contactNumber}) {
-        signup(
-            {fullName, email, password, contactNumber},
-            {
+        if (isEditSession) {
+            editUser({fullName, email, password, contactNumber},
+                {
+                    onSuccess: (data) => {
+                        reset();
+                        onCloseModal?.();
+                    }
+                })
+        } else {
+            signup(
+                {fullName, email, password, contactNumber},
+                {
+                    onSuccess: (data) => {
+                        reset();
+                        onCloseModal?.();
+                    },
+                }
+            );
+
+            createUser({fullName, email, contactNumber}, {
                 onSuccess: (data) => {
                     reset();
                     onCloseModal?.();
                 },
-            }
-        );
-
-        createUser({fullName, email, contactNumber}, {
-            onSuccess: (data) => {
-                reset();
-                onCloseModal?.();
-            },
-        })
+            })
+        }
 
     }
 
@@ -48,6 +65,7 @@ function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
                 <Input
                     type="text"
                     id="fullName"
+                    disabled={isEditSession || isWorking}
                     {...register("fullName", {required: "This field is required"})}
                 />
             </FormRow>
@@ -55,6 +73,7 @@ function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
                 <Input
                     type="text"
                     id="contactNumber"
+                    disabled={isWorking}
                     {...register("contactNumber", {required: "This field is required"})}
                 />
             </FormRow>
@@ -63,6 +82,7 @@ function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
                 <Input
                     type="email"
                     id="email"
+                    disabled={isWorking}
                     {...register("email", {
                         required: "This field is required",
                         pattern: {
@@ -80,6 +100,7 @@ function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
                 <Input
                     type="password"
                     id="password"
+                    disabled={isWorking}
                     {...register("password", {
                         required: "This field is required",
                         minLength: {
@@ -94,6 +115,7 @@ function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
                 <Input
                     type="password"
                     id="passwordConfirm"
+                    disabled={isWorking}
                     {...register("passwordConfirm", {
                         required: "This field is required",
                         validate: (value) =>
@@ -109,10 +131,11 @@ function CreateCabinForm({cabinToEdit = {}, onCloseModal}) {
                     type="reset"
                     onClick={onCancel}
                     signup={true}
+                    disabled={isWorking}
                 >
                     Cancel
                 </Button>
-                <Button signup={true}
+                <Button signup={true} disabled={isWorking}
                 >Create new user</Button>
             </FormRow>
         </Form>

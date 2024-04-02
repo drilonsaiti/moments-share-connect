@@ -115,7 +115,6 @@ const HomeUser = ({onCloseModal, onCloseHandle}) => {
             },
         });
 
-        console.log(onCloseModal);
         uploadImage({image: compressor.file, filename, bucketId}, {
             onSuccess: () => {
                 setImage(null);

@@ -3,7 +3,6 @@ import supabseWithServiceKey from "./supabaseServiceKey.js";
 
 export async function getBuckets() {
     const {data, error} = await supabase.from("bucket").select("*");
-    console.log("DATA", data);
     if (error) {
         console.error(error);
         throw new Error("Buckets could not be loaded");
@@ -13,12 +12,10 @@ export async function getBuckets() {
 }
 
 export async function getBucketById(bucketEmail) {
-    console.log("EMAIL", bucketEmail)
     const {
         data,
         error
     } = await supabase.from("bucket").select("*").eq("email", bucketEmail);
-    console.log("DATA", data);
     if (error) {
         console.error(error);
         throw new Error("Buckets could not be loaded");

@@ -18,8 +18,8 @@ const StyledModal = styled.div`
     transition: all 0.5s;
     overflow-y: ${({overFlowVisible}) => (overFlowVisible ? 'visible' : 'auto')};
     ${(props) =>
-    props.imageDisplay === true &&
-    css`
+            props.imageDisplay === true &&
+            css`
                 width: 100%;
                 height: 100%;
                 padding: 1.2rem 1rem;
@@ -78,12 +78,11 @@ const ButtonX = styled.button`
     right: 4rem;
 
     ${(props) =>
-    !props.imageDisplay &&
-    css`
+            !props.imageDisplay &&
+            css`
                 top: 6rem;
                 right: 7rem;
             `}
-
     &:hover {
         background-color: var(--color-grey-0);
     }
@@ -153,7 +152,7 @@ const SpinnerContainer = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 `
 
 const Uploading = styled.p`
@@ -206,7 +205,6 @@ const Window = ({children, name, overFlowVisible, imageDisplay, resetImage, hand
         setSpinner(true)
         handleTakePhoto();
     }
-    console.log(imageDisplay)
     return createPortal(
         <Overlay>
             <StyledModal ref={ref} onClick={(e) => e.stopPropagation()}

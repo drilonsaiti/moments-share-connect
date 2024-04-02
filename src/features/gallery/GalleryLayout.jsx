@@ -69,7 +69,6 @@ const GalleryLayout = ({gridNum, select, checkedAll, updateSelectedImagesLength}
     if (isLoading) <Spinner/>
     if (galleries && galleries.image_urls && galleries.image_urls.length > 0) {
         slides = galleries.image_urls.map(url => ({src: supabaseStorageUrl + galleries.bucket_name + "/" + url}));
-        console.log("Slide objects:", slides);
     } else {
         console.log("No image URLs available in the galleries object.");
     }
