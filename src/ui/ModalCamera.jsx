@@ -49,7 +49,7 @@ const ButtonClose = styled.button`
     transform: translateX(0.8rem);
     transition: all 0.2s;
     position: absolute;
-    bottom: 7rem;
+    bottom: 9rem;
     left: 6rem;
 
     &:hover {
@@ -74,7 +74,7 @@ const ButtonX = styled.button`
     transform: translateX(0.8rem);
     transition: all 0.2s;
     position: absolute;
-    top: 4rem;
+    top: 8rem;
     right: 4rem;
 
     ${(props) =>
