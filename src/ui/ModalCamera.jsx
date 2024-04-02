@@ -74,7 +74,7 @@ const ButtonX = styled.button`
     transform: translateX(0.8rem);
     transition: all 0.2s;
     position: absolute;
-    top: 8rem;
+    top: 14rem;
     right: 4rem;
 
     ${(props) =>
