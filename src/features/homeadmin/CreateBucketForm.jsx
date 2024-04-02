@@ -15,14 +15,14 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
     const {isCreating, createBucket} = useCreateBucket();
     const {isCreating: isCreatingStorage, createStorageBucket} = useCreateStorageBucket();
     const {isEditing, editBucket} = useEditBucket();
-    const {isEditing: isEditingStorageBucket,editStorageBucket} = useEditStorageBucket()
+    const {isEditing: isEditingStorageBucket, editStorageBucket} = useEditStorageBucket()
     const isWorking = isCreating || isEditing;
     const {id: editId, ...editValues} = bucketToEdit;
     const isEditSession = Boolean(editId);
     const dateTimeLocalNow = new Date(new Date.getTime() - new Date().getTimezoneOffset() * 60_000)
-        .toString().slice(0,16);
+        .toString().slice(0, 16);
 
-    const {register, handleSubmit, reset, getValues, formState,setValue} = useForm({
+    const {register, handleSubmit, reset, getValues, formState, setValue} = useForm({
         defaultValues: isEditSession ? editValues : {},
     });
     const {errors} = formState;
@@ -40,7 +40,7 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                     setValue('full_name', data.full_name);
                     setValue('contact_number', data.contact_number);
                     setValue('location', data.location);
-                    setValue('date',data.date)
+                    setValue('date', data.date)
                 }
             }
         };
@@ -49,15 +49,16 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
             fetchUserData();
         }
     }, [setEmail, email]);
+
     function onSubmit(data) {
 
 
-        if (isEditSession){
+        if (isEditSession) {
 
-            editBucket({...data,id:data.bucketId})
+            editBucket({...data, id: data.bucketId})
 
 
-        }else{
+        } else {
             const date = new Date(data.date);
             const bucket_name = data.email + date.toISOString().slice(0, 10);
             const newData = {...data, bucket_name: bucket_name, image_urls: []}
@@ -73,7 +74,6 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                 }
             )
         }
-
 
 
     }

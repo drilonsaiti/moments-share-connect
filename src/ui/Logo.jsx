@@ -15,7 +15,7 @@ const Logo = () => {
 
     return (
         <StyledLogo>
-            <Img src={isDark ? '/logo-white.png' : '/logo.png'} alt="Logo" />
+            <Img src={isDark ? '/logo-white.png' : '/logo.png'} alt="Logo"/>
         </StyledLogo>
     );
 };

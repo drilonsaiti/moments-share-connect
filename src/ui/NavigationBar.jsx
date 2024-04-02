@@ -134,15 +134,15 @@ const NavigationBar = () => {
     return (
         <NavigationLayout>
             <NavigationItems>
-                <StyledNavLink replace to="home">
+                <StyledNavLink replace to="/home">
                     <HiHome/>
                     <p className="name">home</p>
                 </StyledNavLink>
-                {isAdmin && <StyledNavLink replace to="dashboard">
+                {isAdmin && <StyledNavLink replace to="/dashboard">
                     <HiChartBar/>
                     <p className="name">dashboard</p>
                 </StyledNavLink>}
-                {isAdmin && <StyledNavLink replace to="users">
+                {isAdmin && <StyledNavLink replace to="/users">
                     <HiUsers/>
                     <p className="name">users</p>
                 </StyledNavLink>}

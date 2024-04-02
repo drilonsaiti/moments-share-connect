@@ -15,8 +15,8 @@ export async function createStorageBucketApi({bucket_name}) {
 
 }
 
-export async function editStorageBucketApi({bucket_name,oldBucket}) {
-    await  supabseWithServiceKey.storage.createBucket(bucket_name, {
+export async function editStorageBucketApi({bucket_name, oldBucket}) {
+    await supabseWithServiceKey.storage.createBucket(bucket_name, {
         public: true,
         allowedMimeTypes: ['image/*'],
 

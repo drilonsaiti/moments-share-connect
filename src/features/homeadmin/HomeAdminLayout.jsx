@@ -25,7 +25,7 @@ import {useSearchParams} from "react-router-dom";
 
 
 const Header = styled.div`
-    
+
 `;
 
 const ActionLink = styled.a`
@@ -147,7 +147,7 @@ const HomeAdminLayout = () => {
                                                 <ConfirmDelete
                                                     resourceName="bucket"
                                                     disabled={isDeleting}
-                                                    onConfirm={() => deleteBucket(bucket.id,bucket.bucket_name)}
+                                                    onConfirm={() => deleteBucket(bucket.id, bucket.bucket_name)}
                                                 />
                                             </Modal.Window>
                                         </Menus.Menu>
@@ -203,8 +203,10 @@ const HomeAdminLayout = () => {
 
                             <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
 
-                                <QrCode text={bucket.bucket_name} displayImg/>
-                                <QrCode text={bucket.bucket_name} ref={qrCodeRef}/>
+                                <QrCode text={`https://moments-share-connect.vercel.app/${bucket.bucket_name}`}
+                                        displayImg/>
+                                <QrCode text={`https://moments-share-connect.vercel.app/${bucket.bucket_name}`}
+                                        ref={qrCodeRef}/>
                                 <Button sizes="medium" onClick={() => downloadQrCode(`QRCode-${bucket.bucket_name}`)}>
                                     Download QR code
                                 </Button>

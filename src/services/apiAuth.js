@@ -62,7 +62,7 @@ export async function createUserApi({fullName, email, contactNumber}) {
 
 export async function findByEmail(email) {
     const {data, error} = await supabase.from('users')
-        .select("*").eq("email",email).single();
+        .select("*").eq("email", email).single();
 
     if (error) throw new Error(error.message);
 

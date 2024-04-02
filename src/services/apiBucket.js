@@ -48,14 +48,14 @@ export async function createEditBucket(newBucket, id) {
 }
 
 
-export async function deleteBucketApi(id,bucketName) {
+export async function deleteBucketApi(id, bucketName) {
     const {data, error} = await supabase.from("bucket").delete().eq("id", id);
 
     if (error) {
         console.error(error);
         throw new Error("Bucket could not be deleted");
     }
-    const { data2, error2 } = await supabseWithServiceKey
+    const {data2, error2} = await supabseWithServiceKey
         .storage
         .deleteBucket(bucketName)
 

@@ -17,7 +17,7 @@ const LoginLayout = styled.main`
 
 function Login() {
     return <LoginLayout>
-        <Logo />
+        <Logo/>
         <Heading type="login">SemaDaka Events</Heading>
         <Heading type="h2" style={{textAlign: 'center'}}>Log in to your account</Heading>
         <LoginForm/>
