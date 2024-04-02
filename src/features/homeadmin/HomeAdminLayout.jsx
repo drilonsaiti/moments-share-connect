@@ -203,9 +203,9 @@ const HomeAdminLayout = () => {
 
                             <FlexGroup type="row" style={{alignSelf: 'center', alignItems: 'center'}}>
 
-                                <QrCode text={`https://moments-share-connect.vercel.app/${bucket.bucket_name}`}
+                                <QrCode text={`https://moments-share-connect.vercel.app/take-photo/${bucket.bucket_name}`}
                                         displayImg/>
-                                <QrCode text={`https://moments-share-connect.vercel.app/${bucket.bucket_name}`}
+                                <QrCode text={`https://moments-share-connect.vercel.app/take-photo/${bucket.bucket_name}`}
                                         ref={qrCodeRef}/>
                                 <Button sizes="medium" onClick={() => downloadQrCode(`QRCode-${bucket.bucket_name}`)}>
                                     Download QR code
