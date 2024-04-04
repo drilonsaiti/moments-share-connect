@@ -1,10 +1,12 @@
 import styled, {css} from "styled-components";
 import {createPortal} from "react-dom";
-import {cloneElement, createContext, useCallback, useContext, useMemo, useState} from "react";
+import {cloneElement, createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useOutsideClick} from "../hooks/useOutsideClick.js";
 import {HiXMark} from "react-icons/hi2";
 import Spinner from "./Spinner.jsx";
 import FlexGroup from "./FlexGroup.jsx";
+import {FaRotate} from "react-icons/fa6";
+import {FACING_MODES} from 'react-html5-camera-photo';
 
 const StyledModal = styled.div`
     position: fixed;
@@ -18,8 +20,8 @@ const StyledModal = styled.div`
     transition: all 0.5s;
     overflow-y: ${({overFlowVisible}) => (overFlowVisible ? 'visible' : 'auto')};
     ${(props) =>
-            props.imageDisplay === true &&
-            css`
+    props.imageDisplay === true &&
+    css`
                 width: 100%;
                 height: 100%;
                 padding: 1.2rem 1rem;
@@ -41,7 +43,9 @@ const Overlay = styled.div`
 `;
 
 const ButtonClose = styled.button`
-    background-color: #000;
+    background: none;
+
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
     color: #fff;
     border: none;
     padding: 0.4rem;
@@ -49,24 +53,54 @@ const ButtonClose = styled.button`
     transform: translateX(0.8rem);
     transition: all 0.2s;
     position: absolute;
-    bottom: 9rem;
+    bottom: 7rem;
     left: 6rem;
+    text-shadow: 1px 1px 2px #000;
+    font-size: 2rem;
 
-    &:hover {
-        background-color: var(--color-grey-0);
-    }
 
-    & svg {
-        width: 2.4rem;
-        height: 2.4rem;
-        /* Sometimes we need both */
-        /* fill: var(--color-grey-500);
-        stroke: var(--color-grey-500); */
-        color: var(--color-grey-0);
-    }
+    /* @media not all and (min-resolution:.001dpcm) {
+         @media {
+                 bottom: 14rem !important;
+         }
+     }
+ 
+     @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
+             bottom: 13rem !important;
+     }*/
+
+    ${(props) =>
+    (window.navigator.userAgent.toString().indexOf("Firefox")) &&
+    css`
+                bottom: 10rem;
+            `};
+
+    ${(props) =>
+    (window.navigator.userAgent.toString().indexOf("Safari")) &&
+    css`
+                bottom: 14rem;
+            `};
+
+    ${(props) =>
+    (window.navigator.userAgent.toString().indexOf("Chrome")) &&
+    css`
+                bottom: 12rem;
+            `};
+
+    ${(props) =>
+    (window.navigator.brave) &&
+    css`
+                bottom: 7rem;
+            `};
+
+
+
+
+
 `;
 const ButtonX = styled.button`
-    background-color: #000;
+    background: none;
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
     color: #fff;
     border: none;
     padding: 0.4rem;
@@ -78,26 +112,52 @@ const ButtonX = styled.button`
     right: 4rem;
 
     ${(props) =>
-            !props.imageDisplay &&
-            css`
+    (window.navigator.brave) &&
+    css`
+                top: 6rem !important;
+            `};
+
+    @media not all and (min-resolution: .001dpcm) {
+        @media {
+            top: 16rem !important;
+
+            ${(props) =>
+    props.imageDisplay &&
+    css`
+                        top: 4rem !important;
+                        right: 4rem !important;
+                    `}
+        }
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+        top: 11rem ;
+
+        ${(props) =>
+    props.imageDisplay &&
+    css`
+                    top: 4rem !important;
+                    right: 4rem !important;
+                `}
+    }
+
+    ${(props) =>
+    !props.imageDisplay &&
+    css`
                 top: 6rem;
                 right: 7rem;
             `}
-    &:hover {
-        background-color: var(--color-grey-0);
-    }
-
     & svg {
-        width: 2.4rem;
-        height: 2.4rem;
-        /* Sometimes we need both */
-        /* fill: var(--color-grey-500);
-        stroke: var(--color-grey-500); */
+        width: 2.8rem;
+        height: 2.8rem;
+        filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .4));
         color: #fff;
     }
 `;
 const ButtonUsePhoto = styled.button`
-    background-color: #000;
+    background: none;
+
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
     color: #fff;
     border: none;
     padding: 0.4rem;
@@ -107,22 +167,21 @@ const ButtonUsePhoto = styled.button`
     position: absolute;
     bottom: 4rem;
     right: 3rem;
+    text-shadow: 1px 1px 2px #000;
+    font-size: 1.7rem;
 
-    &:hover {
-        background-color: var(--color-grey-0);
-    }
 
     & svg {
         width: 2.4rem;
         height: 2.4rem;
-        /* Sometimes we need both */
-        /* fill: var(--color-grey-500);
-        stroke: var(--color-grey-500); */
+        filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
         color: var(--color-grey-0);
     }
 `;
 const ButtonTakePhoto = styled.button`
-    background-color: #000;
+    background: none;
+
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
     color: #fff;
     border: none;
     padding: 0.4rem;
@@ -131,19 +190,70 @@ const ButtonTakePhoto = styled.button`
     transition: all 0.2s;
     position: absolute;
     bottom: 4rem;
-    left: 4rem;
+    left: 1rem;
+    text-shadow: 1px 1px 2px #000;
+    font-size: 1.7rem;
 
-    &:hover {
-        background-color: var(--color-grey-0);
-    }
 
     & svg {
         width: 2.4rem;
         height: 2.4rem;
-        /* Sometimes we need both */
-        /* fill: var(--color-grey-500);
-        stroke: var(--color-grey-500); */
+        filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
         color: var(--color-grey-700);
+    }
+`;
+
+const ButtonSwitch = styled.button`
+    background: none;
+
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
+    color: #fff;
+    border: none;
+    padding: 0.4rem;
+    border-radius: var(--border-radius-sm);
+    transform: translateX(0.8rem);
+    transition: all 0.2s;
+    position: absolute;
+    top: 14rem;
+    left: 7rem;
+    stroke: #fff;
+
+    ${(props) =>
+    (window.navigator.brave) &&
+    css`
+                top: 6rem !important;
+            `};
+
+    @media not all and (min-resolution: .001dpcm) {
+        @media {
+            top: 16rem !important;
+
+            ${(props) =>
+    props.imageDisplay &&
+    css`
+                        top: 4rem !important;
+                        right: 4rem !important;
+                    `}
+        }
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+        top: 11rem ;
+
+        ${(props) =>
+    props.imageDisplay &&
+    css`
+                    top: 4rem !important;
+                    right: 4rem !important;
+                `}
+    }
+
+
+    & svg {
+        width: 2.2rem;
+        height: 2.2rem;
+        color: var(--color-grey-700);
+        filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .4));
     }
 `;
 
@@ -160,17 +270,23 @@ const Uploading = styled.p`
 `
 const ModalContext = createContext();
 
-const ModalCamera = ({children, overFlowVisibile, resetImage}) => {
+const ModalCamera = ({children, overFlowVisibile, resetImage, onCameraRotate}) => {
     const [openName, setOpenName] = useState('');
 
     const close = useCallback(() => {
         setOpenName('');
-        resetImage(); // Call the resetImage function when the modal is closed
+        resetImage();
     }, [resetImage]);
     const open = setOpenName;
-    const contextValue = useMemo(() => ({openName, close, open}), [openName, close, open]);
+    const contextValue = useMemo(() => ({
+        openName,
+        close,
+        open,
+        onCameraRotate
+    }), [openName, close, open, onCameraRotate]);
 
-    return <ModalContext.Provider value={contextValue}>{children}</ModalContext.Provider>;
+    return <ModalContext.Provider value={contextValue}
+                                  onCameraRotate={onCameraRotate}>{children}</ModalContext.Provider>;
 }
 
 
@@ -186,10 +302,20 @@ const Open = ({children, opens: opensWindowName, handleIsOpenCamera}) => {
 
 
 const Window = ({children, name, overFlowVisible, imageDisplay, resetImage, handleTakePhoto}) => {
-    const {openName, close} = useContext(ModalContext);
+    const {openName, close, onCameraRotate} = useContext(ModalContext);
     const ref = useOutsideClick(close);
     const [spinner, setSpinner] = useState(false);
+    const [facingCamera, setFacingCamera] = useState(true);
+    const [facingMode, setFacingMode] = useState(FACING_MODES.USER);
+    const browser = window.navigator;
 
+    useEffect(() => {
+        if (facingCamera) {
+            setFacingMode(FACING_MODES.USER)
+        } else {
+            setFacingMode(FACING_MODES.ENVIRONMENT);
+        }
+    }, [facingCamera]);
 
     if (name !== openName) return null;
     const handleAnimationEnd = () => {
@@ -205,6 +331,10 @@ const Window = ({children, name, overFlowVisible, imageDisplay, resetImage, hand
         setSpinner(true)
         handleTakePhoto();
     }
+
+    const handleCameraRotate = () => {
+        setFacingCamera(!facingCamera);
+    }
     return createPortal(
         <Overlay>
             <StyledModal ref={ref} onClick={(e) => e.stopPropagation()}
@@ -212,8 +342,10 @@ const Window = ({children, name, overFlowVisible, imageDisplay, resetImage, hand
                          onAnimationEnd={handleAnimationEnd}
                          overFlowVisible={overFlowVisible}
                          imageDisplay={imageDisplay}>
-                {!imageDisplay && <ButtonClose style={{zIndex: '999'}} onClick={close}>Cancel</ButtonClose>}
-
+                {!imageDisplay && <ButtonClose style={{zIndex: '999'}} onClick={close} browser={browser}
+                                               test={browser}>Cancel</ButtonClose>}
+                {!imageDisplay &&
+                    <ButtonSwitch style={{zIndex: '999'}} onClick={onCameraRotate}><FaRotate/></ButtonSwitch>}
                 <ButtonX imageDisplay={imageDisplay} onClick={close}
                          style={{zIndex: '998', color: 'red'}}><HiXMark/></ButtonX>
 
@@ -225,6 +357,7 @@ const Window = ({children, name, overFlowVisible, imageDisplay, resetImage, hand
                 <div style={{width: imageDisplay ? '100%' : '', height: imageDisplay ? '100%' : ''}}>
                     {cloneElement(children, {
                         onCloseModal: close,
+                        facingCameraMode: facingCamera
                     })}
                     {spinner && <SpinnerContainer>
                         <FlexGroup>

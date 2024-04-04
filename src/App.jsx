@@ -23,12 +23,14 @@ const queryClient = new QueryClient({
     }
 });
 
+const browser = window.navigator.userAgent.toString().toLowerCase();
+
 function App() {
 
     return (
         <DarkModeProvider>
             <QueryClientProvider client={queryClient}>
-                <GlobalStyles/>
+                <GlobalStyles browser={browser}/>
                 <BrowserRouter>
                     <Routes>
                         <Route
@@ -48,7 +50,7 @@ function App() {
                             <Route path="gallery/:bucketId" element={<Gallery/>}/>
                             <Route path="home" element={<Home/>}/>
                         </Route>
-                        <Route path="take-photo/:bucketId" element={<TakePhoto/>}/>
+                        <Route path="take-photo/:bucketId" element={<TakePhoto browser={browser}/>}/>
                         <Route path="login" element={<Login/>}/>
                         <Route path="*" element={<PageNotFound/>}/>
                     </Routes>

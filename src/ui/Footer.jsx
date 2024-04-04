@@ -8,6 +8,7 @@ const FooterContainer = styled.div`
     bottom: 3%;
     left: 50%;
     transform: translateX(-50%);
+    
 `
 
 const ActionLink = styled.a`

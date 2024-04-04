@@ -1,6 +1,55 @@
-import {createGlobalStyle} from "styled-components";
+import {createGlobalStyle, css} from "styled-components";
+
 
 const GlobalStyles = createGlobalStyle`
+
+      
+    #container-circles{
+                bottom: 90px;
+
+                ${(props) =>
+    (window.navigator.userAgent.toString().indexOf("Chrome")) &&
+    css`
+                            bottom: 145px !important;
+        `};
+                ${(props) =>
+    (window.navigator.userAgent.toString().indexOf("Safari")) &&
+    css`
+                            bottom: 90px;
+        `};
+
+                ${(props) =>
+    (window.navigator.userAgent.toString().indexOf("Firefox")) &&
+    css`
+                            bottom: 90px;
+        `};
+
+                ${(props) =>
+    (window.navigator.brave) &&
+    css`
+                            bottom: 90px !important;
+        `};
+
+
+    }
+
+    /*@media not all and (min-resolution:.001dpcm) {
+        @media {
+            #container-circles {
+                bottom: 130px !important;
+            }
+        }
+    }*/
+/*
+    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
+        #container-circles {
+            bottom: 160px !important;
+        }
+    }
+    */
+
+  
+   
     :root {
         
         &, &.light-mode {

@@ -45,6 +45,12 @@ export async function createEditBucket(newBucket, id) {
 }
 
 
+export async function checkBucketId(id) {
+    const {data, error} = await supabase.from("bucket").select("*")
+        .eq("bucket_name", id);
+    return data;
+}
+
 export async function deleteBucketApi(id, bucketName) {
     const {data, error} = await supabase.from("bucket").delete().eq("id", id);
 

@@ -4,18 +4,20 @@ import Seperator from "../../ui/Seperator.jsx";
 import Heading from "../../ui/Heading.jsx";
 import FlexGroup from "../../ui/FlexGroup.jsx";
 import Button from "../../ui/Button.jsx";
-import Footer from "../../ui/Footer.jsx";
 import DarkModeToggle from "../../ui/DarkModeToggle.jsx";
-import React, {useState} from "react";
+import {useRef, useState} from "react";
 import ButtonIconSocial from "../../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
-import {useWindowSize} from "@tofusoup429/use-window-size";
 import Camera, {FACING_MODES, IMAGE_TYPES} from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import ModalCamera from "../../ui/ModalCamera.jsx";
 import {useUploadImage} from "./useUploadImage.js";
 import Compressor from 'compressorjs';
 import {useParams} from "react-router-dom";
+import {useCheckBucketId} from "../homeadmin/useCheckBucketId().js";
+import Spinner from "../../ui/Spinner.jsx";
+import PageNotFound from "../../pages/PageNotFound.jsx";
+import SpinnerMini from "../../ui/SpinnerMini.jsx";
 
 const StyledHome = styled.div`
     position: relative;
@@ -55,17 +57,13 @@ const StyledHome = styled.div`
 const ButtonContainer = styled.div`
     width: 100%;
     display: flex;
+    flex-direction: column;
+    gap: 2rem;
     justify-content: center;
 `
 
 const FooterContainer = styled.div`
-    position: absolute;
-    bottom: 3%;
-    align-self: center;
 
-    @media only screen and (max-width: 900px) {
-        margin-bottom: 2rem;
-    }
 `
 
 const ActionLink = styled.a`
@@ -74,16 +72,76 @@ const ActionLink = styled.a`
 `
 
 
-const HomeUser = ({onCloseModal, onCloseHandle}) => {
+const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
     const [image, setImage] = useState();
+    const [file, setFile] = useState();
     const [isOpenCamera, setIsOpenCamera] = useState(false);
-    let {width, height} = useWindowSize()
     const {bucketId} = useParams();
+    const {buckets, isLoading} = useCheckBucketId();
     const {uploadImage, isCreating} = useUploadImage();
     const [compressedFile, setCompressedFile] = useState(null);
-    const handleButtonClick = () => {
+    const device = window.navigator.userAgent.toLowerCase();
+    const [facingCamera, setFacingCamera] = useState(true);
+    const [facingMode, setFacingMode] = useState(FACING_MODES.USER);
+    const fileInputRef = useRef(null);
 
+    const handleUpload = () => {
+        fileInputRef.current.click();
     };
+
+    const handleFileChange = (event) => {
+        const files = event.target.files;
+
+        if (files && files.length > 0) {
+            const file = files[0];
+            const filename = `${bucketId}-${Math.random()}`;
+
+
+            if (file.type.startsWith("image/")) {
+                const compressor = new Compressor(file, {
+                    quality: 0.8,
+                    convertTypes: ["image/jpeg"],
+                    maxWidth: Infinity,
+                    maxHeight: Infinity,
+                    convertSize: 5000000,
+                    success: (compressedResult) => {
+                        setCompressedFile(compressedResult)
+                    },
+                });
+
+                uploadImage({image: compressor.file, filename, bucketId}, {
+                    onSuccess: () => {
+                        setFile((prevFile) => !prevFile);
+                        setImage(null);
+                        onCloseModal?.();
+                        onCloseHandle?.();
+                        setIsOpenCamera(false)
+                    },
+                });
+            } else {
+                uploadImage({image: file, filename, bucketId}, {
+                    onSuccess: () => {
+                        setFile((prevFile) => !prevFile);
+                        setImage(null);
+                        onCloseModal?.();
+                        onCloseHandle?.();
+                        setIsOpenCamera(false)
+                    },
+                });
+            }
+        }
+    };
+
+    const handleCameraRotate = () => {
+        const mode = !facingCamera;
+        if (mode) {
+            setFacingMode(FACING_MODES.USER)
+        } else {
+            setFacingMode(FACING_MODES.ENVIRONMENT)
+
+        }
+        setFacingCamera(!facingCamera);
+    }
 
     async function handleTakePhoto() {
 
@@ -117,6 +175,7 @@ const HomeUser = ({onCloseModal, onCloseHandle}) => {
 
         uploadImage({image: compressor.file, filename, bucketId}, {
             onSuccess: () => {
+
                 setImage(null);
                 onCloseModal?.();
                 onCloseHandle?.();
@@ -133,7 +192,12 @@ const HomeUser = ({onCloseModal, onCloseHandle}) => {
 
     const handleIsOpenCamera = () => {
         setIsOpenCamera(true);
+
     }
+
+    if (isLoading) return <Spinner/>
+    if (buckets.length === 0) return <PageNotFound/>
+
     return (
         <StyledHome>
             <FlexGroup type="row" style={{justifyContent: 'center', alignSelf: 'start'}}>
@@ -168,13 +232,12 @@ const HomeUser = ({onCloseModal, onCloseHandle}) => {
 
             <ButtonContainer style={{alignSelf: 'center'}}>
 
-                <ModalCamera resetImage={resetImage}>
+                <ModalCamera resetImage={resetImage} onCameraRotate={handleCameraRotate}>
 
                     <ModalCamera.Open opens={"take-photo"} handleIsOpenCamera={handleIsOpenCamera}>
                         <Button
                             onClick={(e) => {
                                 e.stopPropagation()
-                                handleButtonClick();
                                 setImage(null)
                             }}
                         > Take a photo
@@ -186,7 +249,9 @@ const HomeUser = ({onCloseModal, onCloseHandle}) => {
                             <img src={image} alt="image"/>
                         </ModalCamera.Window>}
                     {(!image && isOpenCamera) &&
-                        <ModalCamera.Window name={"take-photo"} imageDisplay={image} handleTakePhoto={handleTakePhoto}>
+
+                        <ModalCamera.Window name={"take-photo"} imageDisplay={image} handleTakePhoto={handleTakePhoto}
+                                            browser={browser}>
 
                             <Camera
                                 onTakePhoto={(dataUri) => {
@@ -195,17 +260,43 @@ const HomeUser = ({onCloseModal, onCloseHandle}) => {
                                 }}
 
                                 isMaxResolution={true}
-                                isImageMirror={true}
+                                isImageMirror={device.includes("android") ? false : facingCamera}
                                 isFullscreen={true}
-                                idealFacingMode={FACING_MODES.USER}
+                                idealFacingMode={facingMode}
                                 imageType={IMAGE_TYPES.JPG}
                             />
-                        </ModalCamera.Window>}
+                        </ModalCamera.Window>
+
+                    }
                 </ModalCamera>
+                <Button variation="secondary"
+                        onClick={handleUpload}
+                > {!file ? 'Upload photo/video' :
+                    <FlexGroup type="row" style={{justifyContent: 'center'}}><SpinnerMini/> <span>Uploading...</span>
+                    </FlexGroup>}
+                </Button>
+
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*,video/*"
+                    onChange={(e) => {
+                        setFile(!file);
+                        handleFileChange(e)
+                    }}
+                    style={{display: 'none'}}
+                />
+                <p style={{
+                    textAlign: 'center',
+                    fontSize: '1.1rem',
+                    color: 'var(--color-grey-300)',
+                    marginBottom: '2rem'
+                }}>*Please note, this button is for selecting photos, not taking them.For capturing new moments, use the
+                    Take a photo button
+                    instead
+                </p>
             </ButtonContainer>
-            <FooterContainer>
-                <Footer/>
-            </FooterContainer>
+
         </StyledHome>
 
     );
