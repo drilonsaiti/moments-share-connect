@@ -6,6 +6,7 @@ import Spinner from "../../ui/Spinner.jsx";
 import styled from "styled-components";
 import FlexGroup from "../../ui/FlexGroup.jsx";
 import TodayItem from "./TodayItem.jsx";
+import Empty from "../../ui/Empty.jsx";
 
 const StyledToday = styled.div`
     background-color: var(--color-grey-0);
@@ -23,7 +24,7 @@ const StyledToday = styled.div`
 const TodayList = styled.ul`
     overflow: scroll;
     overflow-x: hidden;
-    
+
     &::-webkit-scrollbar {
         width: 0 !important;
     }
@@ -44,8 +45,9 @@ const TodayActivity = () => {
 
 
     if (isLoading) return <SpinnerMini/>
+    if (buckets.length === 0) return <Empty resource={"buckets"}/>
 
-    const filteredBuckets = buckets.filter((bucket) => new Date(bucket.date) >= new Date());
+    const filteredBuckets = buckets?.filter((bucket) => new Date(bucket?.date) >= new Date());
 
 
     return (

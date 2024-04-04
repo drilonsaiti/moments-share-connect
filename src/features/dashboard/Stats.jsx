@@ -2,8 +2,17 @@ import {HiOutlineBanknotes, HiOutlineChartBar, HiOutlineCircleStack, HiOutlineUs
 import Stat from "./Stat.jsx";
 import {formatCurrency} from "../../utils/helpers.js";
 import FlexGroup from "../../ui/FlexGroup.jsx";
+import {useBucketsLength} from "../homeadmin/useBucketsLength.js";
+import SpinnerMini from "../../ui/SpinnerMini.jsx";
+import {useUsersLength} from "../authentication/useUsersLength.js";
 
-function Stats({bookings, confirmedStays, numDays, cabinCount}) {
+function Stats() {
+
+    const {buckets, isLoading} = useBucketsLength();
+    const {users, isLoading: isLoadingUsers} = useUsersLength();
+
+    if (isLoading || isLoadingUsers) return <SpinnerMini/>
+
 
     return (
         <FlexGroup type="row" style={{gap: '4rem'}} operations>
@@ -11,26 +20,26 @@ function Stats({bookings, confirmedStays, numDays, cabinCount}) {
                 title="Users"
                 color="blue"
                 icon={<HiOutlineUsers/>}
-                value={20}
+                value={users ?? 0}
             />
 
             <Stat
                 title="Buckets"
                 color="indigo"
                 icon={<HiOutlineCircleStack/>}
-                value={20}
+                value={buckets ?? 0}
             />
             <Stat
                 title="Profit"
                 color="green"
                 icon={<HiOutlineBanknotes/>}
-                value={formatCurrency(20 * 500)}
+                value={formatCurrency(buckets * 500)}
             />
             <Stat
-                title="Occupancy rate"
+                title="Average profit"
                 color="yellow"
                 icon={<HiOutlineChartBar/>}
-                value={Math.round(((20 * 500) / 20) * 100) + "%"}
+                value={(buckets * 500) / users}
             />
         </FlexGroup>
     );

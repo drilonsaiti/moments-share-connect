@@ -13,6 +13,7 @@ import Spinner from "../../ui/Spinner.jsx";
 import React from "react";
 import {useBucket} from "./useBucket.js";
 import {useCurrentUser} from "../authentication/useCurrentUser.js";
+import AccessDenied from "../../ui/AccessDenied.jsx";
 
 
 const Header = styled.div`
@@ -39,7 +40,7 @@ const HomeClientLayout = () => {
 
 
     if (isLoading || isLoadingCurrentUser) return <Spinner/>
-
+    if (!bucket) return <AccessDenied/>
     return (
         <>
 

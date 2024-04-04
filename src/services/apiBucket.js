@@ -11,6 +11,16 @@ export async function getBuckets() {
     return data;
 }
 
+export async function getBucketsLength() {
+    const {count, error} = await supabase.from("bucket").select('*', {count: 'estimated'});
+    if (error) {
+        console.error(error);
+        throw new Error("Buckets could not be loaded");
+    }
+
+    return count;
+}
+
 export async function getBucketById(bucketEmail) {
     const {
         data,

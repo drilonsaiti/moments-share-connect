@@ -93,6 +93,16 @@ export async function getUsers() {
     return data;
 }
 
+export async function getUsersLength() {
+    const {count, error} = await supabase.from("users").select('*', {count: 'estimated'});
+    if (error) {
+        console.error(error);
+        throw new Error("Users could not be loaded");
+    }
+
+    return count;
+}
+
 export async function deleteUserApi(email) {
     const {data, error} = await supabase.from('users').delete().eq("email", email)
 

@@ -81,10 +81,10 @@ const GalleryLayout = ({gridNum, select, checkedAll, updateSelectedImagesLength}
                             <InputCheckbox checkedAll={checkedAll} onClick={() => handleSelectedImage(slide.src)}/>}
                         <img
                             key={index}
-                            src={slide.src} // Replace with your image URLs
+                            src={slide.src}
                             alt={`Grid Image ${index + 1}`}
                             onClick={() => setSelectedImageIndex(index)}
-                            style={{cursor: 'pointer'}}
+                            style={{cursor: 'pointer', objectFit: 'contain'}}
                         />
                     </div>
                 ))}
