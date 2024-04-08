@@ -50,7 +50,7 @@ const HomeClientLayout = () => {
                         <Header>
                             <FlexGroup>
                                 <Heading type="h4" subheading>
-                                    SemaDaka Event
+                                    Sema Event
                                 </Heading>
                                 <FlexGroup>
                                     <FlexGroup type="row" contact>

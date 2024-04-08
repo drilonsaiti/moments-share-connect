@@ -107,7 +107,7 @@ const Gallery = () => {
                 <FlexGroup type="row">
                     <FlexGroup style={{gap: 0, alignItems: 'center'}}>
                         <FlexGroup type="row" changeDirection>
-                            <Heading style={{alignSelf: 'center', textAlign: 'center'}}>SemaDaka Events</Heading>
+                            <Heading style={{alignSelf: 'center', textAlign: 'center'}}>Sema Events</Heading>
                             <ButtonIconSocial type="icon">
                                 <FaInstagram/>
                             </ButtonIconSocial>
