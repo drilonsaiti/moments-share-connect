@@ -34,7 +34,7 @@ const Contact = styled.a`
 function Login() {
     return <LoginLayout>
         <Logo/>
-        <Heading type="login">Sema Events</Heading>
+        <Heading type="login">Sema Event</Heading>
         <Heading type="h2" style={{textAlign: 'center'}}>Log in to your account</Heading>
         <LoginForm/>
         <Contact href="https://www.instagram.com/sema.event/">

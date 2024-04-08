@@ -223,7 +223,7 @@ const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
             <FlexGroup type="row" style={{justifyContent: 'center', alignSelf: 'start'}}>
                 <FlexGroup style={{gap: 0, alignItems: 'center'}}>
                     <FlexGroup type="row" changeDirection>
-                        <Heading style={{alignSelf: 'center', textAlign: 'center'}}>Sema Events</Heading>
+                        <Heading style={{alignSelf: 'center', textAlign: 'center'}}>Sema Event</Heading>
                         <ButtonIconSocial type="icon">
                             <FaInstagram/>
                         </ButtonIconSocial>
