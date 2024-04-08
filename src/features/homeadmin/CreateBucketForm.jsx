@@ -55,12 +55,12 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
 
         if (isEditSession) {
 
-            editBucket({...data, id: data.bucketId})
+            editBucket({...data, id: data.bucketId, bucket_name: bucketToEdit.bucket_name})
 
 
         } else {
             const date = new Date(data.date);
-            const bucket_name = data.email + date.toISOString().slice(0, 10);
+            const bucket_name = data.full_name.replaceAll(" ", "-") + date.toISOString().slice(0, 10);
             const newData = {...data, bucket_name: bucket_name, image_urls: []}
 
             createBucket(

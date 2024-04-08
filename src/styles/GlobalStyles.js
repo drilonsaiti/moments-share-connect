@@ -32,23 +32,7 @@ const GlobalStyles = createGlobalStyle`
 
 
     }
-
-    /*@media not all and (min-resolution:.001dpcm) {
-        @media {
-            #container-circles {
-                bottom: 130px !important;
-            }
-        }
-    }*/
-/*
-    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
-        #container-circles {
-            bottom: 160px !important;
-        }
-    }
-    */
-
-  
+    
    
     :root {
         

@@ -3,39 +3,25 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-import styled from "styled-components";
 import {useQueryClient} from "@tanstack/react-query";
 import {useLogin} from "./useLogin.js";
+import SpinnerMini from "../../ui/SpinnerMini.jsx";
+import {HiEye} from "react-icons/hi2";
+import styled from "styled-components";
+import Icon from "../../ui/Icon.jsx";
+import {HiEyeOff} from "react-icons/hi";
 
-const Container = styled.div`
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-`
-const Card = styled.div`
-    background-color: var(--color-grey-0);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-bottom: 1.5rem;
+
+const PasswordContainer = styled.div`
+    position: relative;
     width: 100%;
-    cursor: pointer;
-    text-align: center;
-
-    p {
-        color: var(--color-grey-1000);
-        line-height: 1.6;
-        width: 100%;
-    }
-
-    &:hover {
-        outline: 2px solid var(--color-brand-700);
-    }
-`;
+    
+`
 
 function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassowrd] = useState(false);
     const {login, isLoading, data} = useLogin();
     const queryClient = useQueryClient();
 
@@ -54,12 +40,8 @@ function LoginForm() {
 
     }
 
-    const handleLogin = (email, password) => {
-        const data = {
-            email: email,
-            password: password
-        }
-        login(data)
+    const handleShowPassowrd = () => {
+        setShowPassowrd(!showPassword);
     }
 
     return (<>
@@ -71,24 +53,30 @@ function LoginForm() {
                         id="email"
                         autoComplete="username"
                         value={email}
-                        /*disabled={isLoading}*/
+                        disabled={isLoading}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </FormRow>
                 <FormRow label="Password" orientation="vertical">
-                    <Input
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        /* disabled={isLoading}*/
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                    <PasswordContainer>
+                        <Input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            autoComplete="current-password"
+                            disabled={isLoading}
+                            value={password}
+                            style={{width: '100%'}}
+                            onChange={(e) => setPassword(e.target.value)}
 
-                    />
+                        />
+                        <Icon eyeIcon onClick={handleShowPassowrd}>
+                            {showPassword ? <HiEye/> : <HiEyeOff/>}
+                        </Icon>
+                    </PasswordContainer>
                 </FormRow>
                 <FormRow orientation="vertical">
-                    <Button /*disabled={isLoading}*/ size="large">{/*{!isLoading ? "Log in" : <SpinnerMini/>}*/}Log
-                        in</Button>
+                    <Button disabled={isLoading || !email || !password} size="large">{!isLoading ? "Log in" :
+                        <SpinnerMini/>}</Button>
                 </FormRow>
                 {/* <p style={{textAlign: "center", marginTop: "2rem"}}>No account? <p
                 style={{color: "var(--color-brand-600)", fontSize: "2rem"}} >Sign up</p></p>*/}

@@ -34,16 +34,15 @@ export async function getBucketById(bucketEmail) {
     return data;
 }
 
-export async function createEditBucket(newBucket, id) {
+export async function createEditBucket(newBucket, id, bucket_name) {
 
     let query = supabase.from("bucket");
 
 
     if (!id) query = query.insert([{...newBucket}]);
 
-    // B) EDIT
-    /* if (id) query = query.update({ ...newBucket, image: imagePath }).eq("id", id);
- */
+    if (id) query = query.update({...newBucket, bucket_name: bucket_name}).eq("id", id);
+
     const {data, error} = await query.select().single();
 
     if (error) {

@@ -13,6 +13,7 @@ const Layout = styled.main`
     background-color: var(--color-grey-50);
     @media only screen and (max-width: 450px) {
         grid-template-columns: 40rem;
+        min-height: 100dvh;
         gap: 0;
     }
 `;

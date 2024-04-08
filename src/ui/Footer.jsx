@@ -8,7 +8,7 @@ const FooterContainer = styled.div`
     bottom: 3%;
     left: 50%;
     transform: translateX(-50%);
-    
+
 `
 
 const ActionLink = styled.a`
@@ -24,9 +24,9 @@ const ActionLink = styled.a`
         font-size: 1.8rem;
         font-weight: 500;
         transition: all 0.3s;
-        
+
     }
-    
+
 
     &:hover,
     &:active,

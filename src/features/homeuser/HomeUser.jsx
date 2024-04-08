@@ -16,8 +16,8 @@ import Compressor from 'compressorjs';
 import {useParams} from "react-router-dom";
 import {useCheckBucketId} from "../homeadmin/useCheckBucketId().js";
 import Spinner from "../../ui/Spinner.jsx";
-import PageNotFound from "../../pages/PageNotFound.jsx";
 import SpinnerMini from "../../ui/SpinnerMini.jsx";
+import Icon from "../../ui/Icon.jsx";
 
 const StyledHome = styled.div`
     position: relative;
@@ -36,6 +36,7 @@ const StyledHome = styled.div`
     }
     @media only screen and (min-width: 450px) {
         grid-template-rows: min-content min-content 0;
+        height: 100dvh;
     }
     @media only screen and (max-height: 670px) {
         grid-template-rows: min-content min-content 30%;
@@ -69,6 +70,25 @@ const FooterContainer = styled.div`
 const ActionLink = styled.a`
     text-decoration: none;
     cursor: pointer;
+`
+const Contact = styled.a`
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    justify-self: center;
+    gap: 1rem;
+    cursor: pointer;
+
+`
+
+const ParagraphInsta = styled.p`
+    text-decoration: underline;
+    margin-bottom: 3px;
+
+    &:hover {
+        color: var(--color-brand-600);
+    }
 `
 
 
@@ -196,7 +216,7 @@ const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
     }
 
     if (isLoading) return <Spinner/>
-    if (buckets.length === 0) return <PageNotFound/>
+    /*if (buckets.length === 0) return <PageNotFound/>*/
 
     return (
         <StyledHome>
@@ -210,9 +230,14 @@ const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
                     </FlexGroup>
 
                     <Heading type="h4" subheading>
-                        <ActionLink href="tel:+38970000000">
-                            +38970000000
-                        </ActionLink>
+                        <Contact href="https://www.instagram.com/sema.event/">
+                            <Icon>
+                                <FaInstagram/>
+                            </Icon>
+                            <ParagraphInsta>
+                                sema.event
+                            </ParagraphInsta>
+                        </Contact>
                     </Heading>
 
                 </FlexGroup>
