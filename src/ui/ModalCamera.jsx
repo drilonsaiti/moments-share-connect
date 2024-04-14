@@ -20,8 +20,8 @@ const StyledModal = styled.div`
     transition: all 0.5s;
     overflow-y: ${({overFlowVisible}) => (overFlowVisible ? 'visible' : 'auto')};
     ${(props) =>
-            props.imageDisplay === true &&
-            css`
+    props.imageDisplay === true &&
+    css`
                 width: 100%;
                 height: 100%;
                 padding: 1.2rem 1rem;
@@ -70,26 +70,26 @@ const ButtonClose = styled.button`
      }*/
 
     ${(props) =>
-            (window.navigator.userAgent.toString().indexOf("Firefox")) &&
-            css`
+    (window.navigator.userAgent.toString().indexOf("Firefox")) &&
+    css`
                 bottom: 10rem;
             `};
 
     ${(props) =>
-            (window.navigator.userAgent.toString().indexOf("Safari")) &&
-            css`
+    (window.navigator.userAgent.toString().indexOf("Safari")) &&
+    css`
                 bottom: 14rem;
             `};
 
     ${(props) =>
-            (window.navigator.userAgent.toString().indexOf("Chrome")) &&
-            css`
+    (window.navigator.userAgent.toString().indexOf("Chrome")) &&
+    css`
                 bottom: 12rem;
             `};
 
     ${(props) =>
-            (window.navigator.brave) &&
-            css`
+    (window.navigator.brave) &&
+    css`
                 bottom: 7rem;
             `};
 
@@ -112,8 +112,8 @@ const ButtonX = styled.button`
     right: 4rem;
 
     ${(props) =>
-            (window.navigator.brave) &&
-            css`
+    (window.navigator.brave) &&
+    css`
                 top: 6rem !important;
             `};
 
@@ -122,8 +122,8 @@ const ButtonX = styled.button`
             top: 16rem !important;
 
             ${(props) =>
-                    props.imageDisplay &&
-                    css`
+    props.imageDisplay &&
+    css`
                         top: 4rem !important;
                         right: 4rem !important;
                     `}
@@ -134,16 +134,16 @@ const ButtonX = styled.button`
         top: 11rem ;
 
         ${(props) =>
-                props.imageDisplay &&
-                css`
+    props.imageDisplay &&
+    css`
                     top: 4rem !important;
                     right: 4rem !important;
                 `}
     }
 
     ${(props) =>
-            !props.imageDisplay &&
-            css`
+    !props.imageDisplay &&
+    css`
                 top: 6rem;
                 right: 7rem;
             `}
@@ -219,8 +219,8 @@ const ButtonSwitch = styled.button`
     stroke: #fff;
 
     ${(props) =>
-            (window.navigator.brave) &&
-            css`
+    (window.navigator.brave) &&
+    css`
                 top: 6rem !important;
             `};
 
@@ -229,8 +229,8 @@ const ButtonSwitch = styled.button`
             top: 16rem !important;
 
             ${(props) =>
-                    props.imageDisplay &&
-                    css`
+    props.imageDisplay &&
+    css`
                         top: 4rem !important;
                         right: 4rem !important;
                     `}
@@ -241,8 +241,8 @@ const ButtonSwitch = styled.button`
         top: 11rem ;
 
         ${(props) =>
-                props.imageDisplay &&
-                css`
+    props.imageDisplay &&
+    css`
                     top: 4rem !important;
                     right: 4rem !important;
                 `}

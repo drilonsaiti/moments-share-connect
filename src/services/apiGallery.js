@@ -10,6 +10,7 @@ export async function getGalleries(bucketId) {
         throw new Error("Buckets could not be loaded");
     }
 
+
     return data;
 }
 

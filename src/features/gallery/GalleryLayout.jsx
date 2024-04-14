@@ -69,14 +69,14 @@ const GalleryLayout = ({gridNum, select, checkedAll, updateSelectedImagesLength}
         }
     };
 
-    if (isLoading) <Spinner/>
+    if (isLoading || isLoadingCurrentUser) return <Spinner/>
     if (galleries && galleries.image_urls && galleries.image_urls.length > 0) {
         slides = galleries.image_urls.map(url => ({src: supabaseStorageUrl + galleries.bucket_name + "/" + url}));
     } else {
         console.log("No image URLs available in the galleries object.");
     }
 
-    if (!data?.email !== galleries.email) return <AccessDenied/>
+    if (data?.user.email !== galleries?.email) return <AccessDenied/>
     return (
         <div>
             <Grids columns={`repeat(${gridNum}, 1fr)`} style={{justifyItems: 'center'}}>

@@ -129,7 +129,7 @@ const NavigationBar = () => {
 
     if (isLoadingUser) return <SpinnerMini/>;
 
-    const isAdmin = data.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
+    const isAdmin = data?.user.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
 
     return (
         <NavigationLayout>

@@ -100,7 +100,7 @@ const Gallery = () => {
         downloadImages(selectedImages);
 
     };
-
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
     return (
         <Layout>
             <StyledHome>
@@ -124,8 +124,9 @@ const Gallery = () => {
 
                 </FlexGroup>
                 <Seperator style={{marginTop: '-20px'}}/>
-                <FlexGroup type="row" style={{justifyContent: 'space-between', width: '100%'}}>
-                    <FlexGroup>
+                <FlexGroup type="row"
+                           style={{justifyContent: `${isDesktop ? 'space-between' : 'flex-end'}`, width: '100%'}}>
+                    {isDesktop && <FlexGroup>
                         <FlexGroup type="row">
                             {selectButton && (
                                 <ActionLink style={{fontSize: '1.8rem'}}>
@@ -144,10 +145,14 @@ const Gallery = () => {
                         </FlexGroup>
                         {selectButton && <Button size="small" smallButton onClick={handleDownloadSelected}>
                             <FlexGroup type="row" style={{justifyContent: 'center', gap: '.2rem'}}>
-                                <HiDownload/> <p>{`Download selected (${selectedImages.length})`}</p>
+                                <HiDownload/>
+                                <FlexGroup type="row" style={{gap: 0}}>
+                                    <p>Download</p>
+                                    <p>{`(${selectedImages.length})`}</p>
+                                </FlexGroup>
                             </FlexGroup>
                         </Button>}
-                    </FlexGroup>
+                    </FlexGroup>}
                     <FlexGroup type="row" style={{gap: '1rem'}}>
                         <Grids columns={"1fr"} onClick={() => handleSelectGrid(1)}>
                             <GridIcon/>

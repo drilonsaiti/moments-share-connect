@@ -26,12 +26,17 @@ export const downloadImages = (selectedImages) => {
         });
     } else {
         selectedImages.forEach(imageUrl => {
-            const link = document.createElement('a');
-            link.href = imageUrl;
-            link.setAttribute('download', '');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            fetch(imageUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    let url = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a');
+                    let parts = imageUrl.split('/');
+                    let imageName = parts[parts.length - 1];
+                    a.href = url;
+                    a.download = `${imageName}.jpg`;
+                    a.click();
+                });
         });
     }
 }

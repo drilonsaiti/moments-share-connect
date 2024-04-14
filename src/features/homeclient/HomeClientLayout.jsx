@@ -36,7 +36,7 @@ const QR = styled.div`
 
 const HomeClientLayout = () => {
     const {data, isLoading: isLoadingCurrentUser} = useCurrentUser();
-    const {isLoading, bucket} = useBucket(data?.email);
+    const {isLoading, bucket} = useBucket(data?.user.email);
 
 
     if (isLoading || isLoadingCurrentUser) return <Spinner/>
