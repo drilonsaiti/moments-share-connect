@@ -104,7 +104,7 @@ const Gallery = () => {
     return (
         <Layout>
             <StyledHome>
-                <FlexGroup type="row">
+                <FlexGroup type="row" style={{justifyContent: 'center'}}>
                     <FlexGroup style={{gap: 0, alignItems: 'center'}}>
                         <FlexGroup type="row" changeDirection>
                             <Heading style={{alignSelf: 'center', textAlign: 'center'}}>Sema Event</Heading>

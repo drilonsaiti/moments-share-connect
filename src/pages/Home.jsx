@@ -6,7 +6,7 @@ import Footer from "../ui/Footer.jsx";
 import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 import SpinnerMini from "../ui/SpinnerMini.jsx";
 
-const Layout = styled.main`
+const Layout = styled.div`
     position: relative;
     min-height: 100lvh;
     display: grid;

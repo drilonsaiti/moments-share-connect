@@ -18,6 +18,7 @@ import {useCheckBucketId} from "../homeadmin/useCheckBucketId().js";
 import Spinner from "../../ui/Spinner.jsx";
 import SpinnerMini from "../../ui/SpinnerMini.jsx";
 import Icon from "../../ui/Icon.jsx";
+import PageNotFound from "../../pages/PageNotFound.jsx";
 
 const StyledHome = styled.div`
     position: relative;
@@ -216,7 +217,7 @@ const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
     }
 
     if (isLoading) return <Spinner/>
-    /*if (buckets.length === 0) return <PageNotFound/>*/
+    if (buckets.length === 0) return <PageNotFound/>
 
     return (
         <StyledHome>

@@ -65,15 +65,15 @@ const Button = styled.button`
 
 
     ${(props) =>
-            props.notFound &&
-            css`
+    props.notFound &&
+    css`
                 display: flex;
                 align-items: center;
                 margin: 0 auto;
             `}
     ${(props) =>
-            props.smallButton &&
-            css`
+    props.smallButton &&
+    css`
                 font-size: 1.4rem !important;
                 padding: .8rem .8rem;
             `}
@@ -81,8 +81,8 @@ const Button = styled.button`
     ${(props) => sizes[props.size]}
     ${(props) => variations[props.variation]}
     ${(props) =>
-            props.signup &&
-            css`
+    props.signup &&
+    css`
                 @media only screen and (max-width: 450px) {
                     font-size: 1.4rem !important;
                 }

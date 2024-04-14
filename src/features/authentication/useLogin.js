@@ -11,7 +11,7 @@ export function useLogin() {
         mutationFn: ({email, password}) => loginApi({email, password}),
         onSuccess: (user) => {
             queryClient.setQueryData(['user'], user.user);
-            user.user.email === "drilon-saiti@hotmail.com" ? navigate('/home', {replace: true}) : navigate('/client', {replace: true});
+            user.user.email === import.meta.env.VITE_EMAIL_ADMIN ? navigate('/home', {replace: true}) : navigate('/client', {replace: true});
         },
         onError: (err) => {
             console.log('ERROR', err);

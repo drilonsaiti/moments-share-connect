@@ -37,6 +37,7 @@ function CreateCabinForm({userToEdit = {}, onCloseModal}) {
                         reset();
                         onCloseModal?.();
                     },
+                    onSettled: () => reset()
                 }
             );
 

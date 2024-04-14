@@ -131,7 +131,6 @@ function CreateCabinForm({bucketToEdit = {}, onCloseModal}) {
                 <Input
                     type="text"
                     id="location"
-                    value={getValues('location') ?? ''}
                     name="location"
 
                     disabled={isWorking}

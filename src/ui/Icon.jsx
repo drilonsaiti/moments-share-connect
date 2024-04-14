@@ -8,14 +8,14 @@ const Icon = styled.svg`
     transition: all 0.3s;
 
     ${(props) =>
-            props.type === "secondary" &&
-            css`
+    props.type === "secondary" &&
+    css`
                 color: var(--color-brand-50);
             `}
 
     ${(props) =>
-            props.eyeIcon &&
-            css`
+    props.eyeIcon &&
+    css`
                 position: absolute;
                 right: .5rem;
                 top: 1rem;
