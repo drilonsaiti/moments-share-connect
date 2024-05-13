@@ -100,6 +100,11 @@ const Gallery = () => {
         downloadImages(selectedImages);
 
     };
+
+    const handleCancel = () => {
+        setSelectButton(!selectButton);
+        setSelectedImages([]);
+    }
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
     return (
         <Layout>
@@ -137,7 +142,7 @@ const Gallery = () => {
                                         <p>Select all</p>
                                     </CheckboxContainer>
                                 </ActionLink>)}
-                            <ActionLink style={{fontSize: '1.8rem'}} onClick={() => setSelectButton(!selectButton)}>
+                            <ActionLink style={{fontSize: '1.8rem'}} onClick={handleCancel}>
                                 {!selectButton ? <p>Select</p> : <p>Cancel</p>}
 
                             </ActionLink>

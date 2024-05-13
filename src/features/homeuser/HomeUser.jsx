@@ -19,6 +19,7 @@ import Spinner from "../../ui/Spinner.jsx";
 import SpinnerMini from "../../ui/SpinnerMini.jsx";
 import Icon from "../../ui/Icon.jsx";
 import PageNotFound from "../../pages/PageNotFound.jsx";
+import EventExpire from "../../ui/EventExpire.jsx";
 
 const StyledHome = styled.div`
     position: relative;
@@ -218,7 +219,11 @@ const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
 
     if (isLoading) return <Spinner/>
     if (buckets.length === 0) return <PageNotFound/>
+    const eventDate = new Date(buckets[0]?.date);
+    const expirationTime = new Date(eventDate.getTime() + 40 * 60 * 60 * 1000);
+    if (expirationTime <= new Date()) return <EventExpire/>
 
+    console.log(new Date(buckets[0].date));
     return (
         <StyledHome>
             <FlexGroup type="row" style={{justifyContent: 'center', alignSelf: 'start'}}>
