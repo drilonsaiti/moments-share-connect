@@ -36,7 +36,7 @@ function CreateCabinForm({userToEdit = {}, onCloseModal}) {
                 }
             );*/
 
-            createUser({fullName, email, password, contactNumber}, {
+            createUser({fullName, email,password, contactNumber}, {
                 onSuccess: (data) => {
                     reset();
                     onCloseModal?.();

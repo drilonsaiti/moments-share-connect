@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 import Spinner from "../../ui/Spinner.jsx";
 import React from "react";
 import {useBucket} from "./useBucket.js";
+import {useCurrentUser} from "../authentication/useCurrentUser.js";
 import AccessDenied from "../../ui/AccessDenied.jsx";
 import {useUser} from "../authentication/useUser.js";
 

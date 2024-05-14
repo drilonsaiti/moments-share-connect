@@ -9,6 +9,7 @@ import InputCheckbox from "../../ui/InputCheckbox.jsx";
 import {useGalleries} from "./useGalleries.js";
 import Spinner from "../../ui/Spinner.jsx";
 import {supabaseStorageUrl} from "../../services/supabase.js";
+import {useCurrentUser} from "../authentication/useCurrentUser.js";
 import AccessDenied from "../../ui/AccessDenied.jsx";
 import {useUser} from "../authentication/useUser.js";
 

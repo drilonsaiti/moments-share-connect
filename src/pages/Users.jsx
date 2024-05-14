@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Footer from "../ui/Footer.jsx";
 import UsersLayout from "../features/authentication/UsersLayout.jsx";
+import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 import SpinnerMini from "../ui/SpinnerMini.jsx";
 import AccessDenied from "../ui/AccessDenied.jsx";
 import {useUser} from "../features/authentication/useUser.js";

@@ -2,6 +2,7 @@ import DashboardLayout from "../features/dashboard/DashboardLayout.jsx";
 import styled from "styled-components";
 import Footer from "../ui/Footer.jsx";
 import AccessDenied from "../ui/AccessDenied.jsx";
+import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 import SpinnerMini from "../ui/SpinnerMini.jsx";
 import React from "react";
 import {useUser} from "../features/authentication/useUser.js";

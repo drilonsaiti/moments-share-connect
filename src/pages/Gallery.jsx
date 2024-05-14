@@ -130,8 +130,8 @@ const Gallery = () => {
                 </FlexGroup>
                 <Seperator style={{marginTop: '-20px'}}/>
                 <FlexGroup type="row"
-                           style={{justifyContent: `${isDesktop ? 'space-between' : 'flex-end'}`, width: '100%'}}>
-                    {isDesktop && <FlexGroup>
+                           style={{justifyContent: 'space-between', width: '100%'}}>
+                    <FlexGroup>
                         <FlexGroup type="row">
                             {selectButton && (
                                 <ActionLink style={{fontSize: '1.8rem'}}>
@@ -157,7 +157,7 @@ const Gallery = () => {
                                 </FlexGroup>
                             </FlexGroup>
                         </Button>}
-                    </FlexGroup>}
+                    </FlexGroup>
                     <FlexGroup type="row" style={{gap: '1rem'}}>
                         <Grids columns={"1fr"} onClick={() => handleSelectGrid(1)}>
                             <GridIcon/>
