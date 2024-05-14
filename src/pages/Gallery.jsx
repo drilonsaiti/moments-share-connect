@@ -84,6 +84,7 @@ const Gallery = () => {
     const [selectButton, setSelectButton] = useState();
     const [checkedAll, setCheckedAll] = useState(false);
     const [selectedImages, setSelectedImages] = useState([])
+    const [selectedImageLength,setSelectedImageLength] = useState(0);
 
     const handleSelectGrid = (gridNum) => {
         setSelectGrid(gridNum)
@@ -91,6 +92,7 @@ const Gallery = () => {
     const updateSelectedImagesLength = (length) => {
 
         setSelectedImages(length);
+        setSelectedImageLength(length.length)
     };
 
     const handleDownloadSelected = () => {
@@ -103,7 +105,13 @@ const Gallery = () => {
 
     const handleCancel = () => {
         setSelectButton(!selectButton);
-        setSelectedImages([]);
+        if (selectedImages.length !== 0) {
+            window.location.reload();
+        }
+
+    }
+    const handleSelect = () => {
+        setSelectButton(!selectButton);
     }
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
     return (
@@ -142,10 +150,12 @@ const Gallery = () => {
                                         <p>Select all</p>
                                     </CheckboxContainer>
                                 </ActionLink>)}
-                            <ActionLink style={{fontSize: '1.8rem'}} onClick={handleCancel}>
-                                {!selectButton ? <p>Select</p> : <p>Cancel</p>}
+                            {!selectButton ? <ActionLink style={{fontSize: '1.8rem'}} onClick={handleSelect}>
+                                <p>Select</p>
+                            </ActionLink> : <ActionLink style={{fontSize: '1.8rem'}} onClick={handleCancel}>
+                               <p>Cancel</p>
+                            </ActionLink>}
 
-                            </ActionLink>
 
                         </FlexGroup>
                         {selectButton && <Button size="small" smallButton onClick={handleDownloadSelected}>
@@ -153,7 +163,7 @@ const Gallery = () => {
                                 <HiDownload/>
                                 <FlexGroup type="row" style={{gap: 0}}>
                                     <p>Download</p>
-                                    <p>{`(${selectedImages.length})`}</p>
+                                    <p>{`(${selectedImageLength})`}</p>
                                 </FlexGroup>
                             </FlexGroup>
                         </Button>}
