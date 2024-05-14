@@ -30,22 +30,18 @@ function CreateCabinForm({userToEdit = {}, onCloseModal}) {
                     }
                 })
         } else {
-            signup(
+            /*signup(
                 {fullName, email, password, contactNumber},
                 {
-                    onSuccess: (data) => {
-                        reset();
-                        onCloseModal?.();
-                    },
-                    onSettled: () => reset()
                 }
-            );
+            );*/
 
-            createUser({fullName, email, contactNumber}, {
+            createUser({fullName, email, password, contactNumber}, {
                 onSuccess: (data) => {
                     reset();
                     onCloseModal?.();
                 },
+                onSettled: () => reset()
             })
         }
 

@@ -3,10 +3,10 @@ import styled, {keyframes} from "styled-components";
 import {NavLink} from "react-router-dom";
 import {HiArrowRightOnRectangle, HiChartBar, HiHome, HiUsers} from "react-icons/hi2";
 import DarkModeToggle from "./DarkModeToggle.jsx";
-import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 import SpinnerMini from "./SpinnerMini.jsx";
 import {useLogout} from "../features/authentication/useLogout.js";
 import ButtonIcon from "./ButtonIcon.jsx";
+import {useUser} from "../features/authentication/useUser.js";
 
 const NavigationLayout = styled.div`
     position: fixed;
@@ -125,11 +125,11 @@ const StyledNavLink = styled(NavLink)`
 
 const NavigationBar = () => {
     const {logout, isLoading} = useLogout();
-    const {data, isLoading: isLoadingUser} = useCurrentUser();
+    const {data, isLoading: isLoadingUser} = useUser();
 
     if (isLoadingUser) return <SpinnerMini/>;
 
-    const isAdmin = data?.user.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
+    const isAdmin = data?.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
 
     return (
         <NavigationLayout>

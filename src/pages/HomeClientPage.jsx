@@ -22,7 +22,6 @@ const Layout = styled.main`
 `;
 
 const HomeClientPage = () => {
-    const isAdmin = true;
     return (
         <Layout>
             <HomeClient/>

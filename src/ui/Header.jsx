@@ -7,7 +7,7 @@ import DarkModeToggle from "./DarkModeToggle.jsx";
 import ButtonIcon from "./ButtonIcon.jsx";
 import SpinnerMini from "./SpinnerMini.jsx";
 import {useLogout} from "../features/authentication/useLogout.js";
-import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
+import {useUser} from "../features/authentication/useUser.js";
 
 
 const StyledNavLink = styled(NavLink)`
@@ -55,11 +55,11 @@ const StyledNavLink = styled(NavLink)`
 `;
 const Header = () => {
     const {logout, isLoading} = useLogout();
-    const {data, isLoading: isLoadingUser} = useCurrentUser();
+    const {data, isLoading: isLoadingUser} = useUser();
 
     if (isLoadingUser) return <SpinnerMini/>;
 
-    const isAdmin = data.user.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
+    const isAdmin = data?.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
 
     return (
         <FlexGroup style={{gap: 0}}>

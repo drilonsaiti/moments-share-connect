@@ -223,7 +223,6 @@ const HomeUser = ({onCloseModal, onCloseHandle, facingCameraMode, browser}) => {
     const expirationTime = new Date(eventDate.getTime() + 40 * 60 * 60 * 1000);
     if (expirationTime <= new Date()) return <EventExpire/>
 
-    console.log(new Date(buckets[0].date));
     return (
         <StyledHome>
             <FlexGroup type="row" style={{justifyContent: 'center', alignSelf: 'start'}}>

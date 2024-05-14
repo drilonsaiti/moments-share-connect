@@ -1,4 +1,5 @@
 import supabase from "./supabase.js";
+import supabseWithServiceKey from "./supabaseServiceKey.js";
 
 export async function signupApi({fullName, email, password, contactNumber}) {
     const {data, error} = await supabase.auth.signUp({
@@ -38,7 +39,7 @@ export async function getCurrentUser() {
 
 
     if (error) throw new Error(error.message);
-    return data;
+    return data?.user;
 }
 
 export async function logoutApi() {
@@ -51,11 +52,20 @@ export async function logout() {
     if (error) throw new Error(error.message);
 }
 
-export async function createUserApi({fullName, email, contactNumber}) {
+export async function createUserApi({fullName, email, password, contactNumber}) {
     const newData = {fullName, email, contactNumber}
     const {data, error} = await supabase.from('users').insert(newData);
 
+    const {data2, error2} = await supabseWithServiceKey.auth.admin.createUser({
+        email: email,
+        password: password,
+        email_confirm: true,
+        user_metadata: {fullName: fullName}
+    })
+
     if (error) throw new Error(error.message);
+
+    if (error2) throw new Error(error2.message);
 
     return data;
 

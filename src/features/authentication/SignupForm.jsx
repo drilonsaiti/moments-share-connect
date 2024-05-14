@@ -2,7 +2,6 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-import {P} from "../../ui/Pagination.jsx";
 import {Link} from "react-router-dom";
 
 // Email regex: /\S+@\S+\.\S+/

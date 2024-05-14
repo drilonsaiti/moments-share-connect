@@ -5,17 +5,17 @@ import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
 const FullPage = styled.div`
-  height: 100vh;
-  background-color: var(--color-grey-50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    height: 100vh;
+    background-color: var(--color-grey-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const ProtectedRoute = ({children}) => {
     const navigate = useNavigate();
 
-    const {isLoading, isAuthenticated} = useUser();
+    const {isLoading, isAuthenticated, data} = useUser();
 
 
     useEffect(

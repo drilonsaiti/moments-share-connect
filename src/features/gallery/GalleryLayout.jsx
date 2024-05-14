@@ -9,8 +9,8 @@ import InputCheckbox from "../../ui/InputCheckbox.jsx";
 import {useGalleries} from "./useGalleries.js";
 import Spinner from "../../ui/Spinner.jsx";
 import {supabaseStorageUrl} from "../../services/supabase.js";
-import {useCurrentUser} from "../authentication/useCurrentUser.js";
 import AccessDenied from "../../ui/AccessDenied.jsx";
+import {useUser} from "../authentication/useUser.js";
 
 const Grids = styled.div`
     display: grid;
@@ -42,7 +42,7 @@ const Input = styled.input`
 
 const GalleryLayout = ({gridNum, select, checkedAll, updateSelectedImagesLength}) => {
     const {galleries, isLoading} = useGalleries();
-    const {data, isLoading: isLoadingCurrentUser} = useCurrentUser();
+    const {data, isLoading: isLoadingCurrentUser} = useUser();
     const [selectedImageIndex, setSelectedImageIndex] = useState(-1);
     const [selectedImages, setSelectedImages] = useState([]);
     let slides = [];
@@ -76,7 +76,7 @@ const GalleryLayout = ({gridNum, select, checkedAll, updateSelectedImagesLength}
         console.log("No image URLs available in the galleries object.");
     }
 
-    if (data?.user.email !== galleries?.email) return <AccessDenied/>
+    if (data?.email !== galleries?.email) return <AccessDenied/>
     return (
         <div>
             <Grids columns={`repeat(${gridNum}, 1fr)`} style={{justifyItems: 'center'}}>

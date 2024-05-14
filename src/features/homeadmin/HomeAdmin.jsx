@@ -3,9 +3,9 @@ import styled from "styled-components";
 import HomeAdminLayout from "./HomeAdminLayout.jsx";
 import NavigationBar from "../../ui/NavigationBar.jsx";
 import Header from "../../ui/Header.jsx";
-import {useCurrentUser} from "../authentication/useCurrentUser.js";
 import SpinnerMini from "../../ui/SpinnerMini.jsx";
 import AccessDenied from "../../ui/AccessDenied.jsx";
+import {useUser} from "../authentication/useUser.js";
 
 
 const StyledHome = styled.div`
@@ -28,11 +28,11 @@ const StyledHome = styled.div`
     }
 `
 const HomeAdmin = () => {
-    const {data, isLoading: isLoadingUser} = useCurrentUser();
+    const {data, isLoading: isLoadingUser} = useUser();
 
     if (isLoadingUser) return <SpinnerMini/>;
 
-    const isAdmin = data?.user.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
+    const isAdmin = data?.email.includes(import.meta.env.VITE_EMAIL_ADMIN);
 
     return (
 
