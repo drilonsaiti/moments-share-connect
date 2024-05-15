@@ -10,13 +10,13 @@ import Menus from "../../ui/Menus";
 
 
 const User = styled.div`
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--color-grey-600);
-  font-family: "Sono";
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-grey-600);
+    font-family: "Sono";
 `;
 
-function UserRow({user}) {
+function UserRow({user, index}) {
     const {isDeleting, deleteUser} = useDeleteUser();
 
     const {
@@ -29,7 +29,7 @@ function UserRow({user}) {
 
     return (
         <Table.Row>
-            <div>{userId}</div>
+            <div>#{index}</div>
             <User>{email}</User>
             <User>{fullName}</User>
             <User>{contactNumber}</User>

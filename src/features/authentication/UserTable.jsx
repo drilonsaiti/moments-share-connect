@@ -63,19 +63,18 @@ const UserTable = () => {
                     </Table.Header>
 
                     <Table.Body
-                        // data={users}
-                        // data={filteredUsers}
+
                         data={users}
-                        render={(user) => <UserRow user={user} key={user.id}/>}
+                        render={(user, index) => <UserRow user={user} key={user.id} index={index}/>}
                     />
                 </Table>
             </Menus> : <Cards>
-                {users.map(user => (
+                {users.map((user, index) => (
                     <Card key={user.email}>
 
                         <Header>
                             <Heading type="h4" subheading style={{alignSelf: 'start'}}>
-                                #{user.id}
+                                #{index}
                             </Heading>
                             <FlexGroup type="row" style={{justifyContent: 'space-between'}}>
                                 <Heading type="h1">

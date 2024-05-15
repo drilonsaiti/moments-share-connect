@@ -7,5 +7,10 @@ export function useUser() {
         queryFn: getCurrentUser,
     });
 
-    return {isLoading, data, isAuthenticated: data?.role === "authenticated",isAdmin: data?.email.includes(import.meta.env.VITE_EMAIL_ADMIN)};
+    return {
+        isLoading,
+        data,
+        isAuthenticated: data?.role === "authenticated",
+        isAdmin: data?.email.includes(import.meta.env.VITE_EMAIL_ADMIN)
+    };
 }

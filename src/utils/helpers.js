@@ -12,6 +12,18 @@ export const formatDistanceFromNow = (dateStr) =>
         .replace('about ', '')
         .replace('in', 'In');
 
+export const formatDateHelper = (date) => {
+    const today = new Date();
+    const options = {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'};
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+
+    if (today.toDateString() === date.toDateString()) {
+        return `Today at ${formattedDate.split(' at ')[1]}`;
+    } else {
+        return formattedDate.toString();
+    }
+}
+
 export const getToday = function (options = {}) {
     const today = new Date();
 

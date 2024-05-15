@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import Tag from "../../ui/Tag.jsx";
+import {formatDateHelper} from "../../utils/helpers.js";
 
 const StyledTodayItem = styled.li`
     display: grid;
@@ -24,13 +25,31 @@ const Guest = styled.div`
 const TodayItem = ({activity}) => {
     const {email, date, full_name, location} = activity;
 
+    const determineDateTag = (date) => {
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+
+        const formattedDate = formatDateHelper(date);
+        const formattedToday = formatDateHelper(today);
+        const formattedTomorrow = formatDateHelper(tomorrow);
+
+        if (formattedDate === formattedToday) {
+            return <Tag type="green">Today</Tag>;
+        } else if (formattedDate === formattedTomorrow) {
+            return <Tag type="blue">Tomorrow</Tag>;
+        } else {
+            return <Tag type="silver">In The Next days</Tag>;
+        }
+    };
+
     return (
         <StyledTodayItem>
-            {new Date(date) === Date.now() ? <Tag type="green">Today</Tag> : <Tag type="blue">Next day</Tag>}
+            {determineDateTag(new Date(date))}
 
             <Guest>
                 {email}</Guest>
-            <Guest>{date.replaceAll("T", " ")}</Guest>
+            <Guest>{formatDateHelper(new Date(date))}</Guest>
             <Guest>{full_name}</Guest>
             <Guest>{location}</Guest>
 

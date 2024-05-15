@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Heading from "../../ui/Heading.jsx";
-import {HiArrowTopRightOnSquare, HiCalendarDays, HiPhone} from "react-icons/hi2";
+import {HiArrowTopRightOnSquare, HiCalendarDays} from "react-icons/hi2";
 import FlexGroup from "../../ui/FlexGroup.jsx";
 import Icon from "../../ui/Icon.jsx";
 import {HiLocationMarker, HiMail} from "react-icons/hi";
@@ -12,9 +12,10 @@ import {Link} from "react-router-dom";
 import Spinner from "../../ui/Spinner.jsx";
 import React from "react";
 import {useBucket} from "./useBucket.js";
-import {useCurrentUser} from "../authentication/useCurrentUser.js";
 import AccessDenied from "../../ui/AccessDenied.jsx";
 import {useUser} from "../authentication/useUser.js";
+import {FaInstagram} from "react-icons/fa6";
+import {formatDateHelper} from "../../utils/helpers.js";
 
 
 const Header = styled.div`
@@ -57,11 +58,11 @@ const HomeClientLayout = () => {
                                     <FlexGroup type="row" contact>
                                         <FlexGroup type="row">
                                             <Icon>
-                                                <HiPhone/>
+                                                <FaInstagram/>
                                             </Icon>
                                             <Heading type="h4" subheading>
-                                                <ActionLink href="tel:+38970000000">
-                                                    +38970000000
+                                                <ActionLink href="https://www.instagram.com/sema.event/">
+                                                    sema.event
                                                 </ActionLink>
                                             </Heading>
                                         </FlexGroup>
@@ -94,7 +95,7 @@ const HomeClientLayout = () => {
                                     <HiCalendarDays/>
                                 </Icon>
                                 <Heading type="h4" subheading>
-                                    {bucket.date}
+                                    {formatDateHelper(new Date(bucket.date))}
                                 </Heading>
                             </FlexGroup>
                             <FlexGroup type="row">

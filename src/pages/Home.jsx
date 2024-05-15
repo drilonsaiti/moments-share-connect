@@ -3,7 +3,6 @@ import styled from "styled-components";
 import HomeAdmin from "../features/homeadmin/HomeAdmin.jsx";
 import HomeClient from "../features/homeclient/HomeClient.jsx";
 import Footer from "../ui/Footer.jsx";
-import {useCurrentUser} from "../features/authentication/useCurrentUser.js";
 import SpinnerMini from "../ui/SpinnerMini.jsx";
 import {useUser} from "../features/authentication/useUser.js";
 

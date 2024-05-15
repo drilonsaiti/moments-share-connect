@@ -52,15 +52,15 @@ export async function logout() {
     if (error) throw new Error(error.message);
 }
 
-export async function createUserApi({fullName, email,password, contactNumber}) {
+export async function createUserApi({fullName, email, password, contactNumber}) {
     const newData = {fullName, email, contactNumber}
     const {data, error} = await supabase.from('users').insert(newData);
 
-    const { data2, error2 } = await supabseWithServiceKey.auth.admin.createUser({
+    const {data2, error2} = await supabseWithServiceKey.auth.admin.createUser({
         email: email,
         password: password,
         email_confirm: true,
-        user_metadata: { fullName: fullName }
+        user_metadata: {fullName: fullName}
     })
 
     if (error) throw new Error(error.message);

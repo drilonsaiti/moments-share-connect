@@ -10,6 +10,7 @@ const Card = styled.div`
     padding: 2rem;
     transition: transform 0.3s ease;
     border: 0.1px solid var(--border-color-50);
+    width: 45rem;
 
     &:hover {
         background: linear-gradient(to left top, rgba(16, 65, 47, .05) 0%, var(--hover-clinic-color) 50%, rgba(16, 65, 47, .1) 100%),

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import FlexGroup from "../ui/FlexGroup.jsx";
 import Seperator from "../ui/Seperator.jsx";
 import Heading from "../ui/Heading.jsx";
-import DarkModeToggle from "../ui/DarkModeToggle.jsx";
 import React, {useState} from "react";
 import ButtonIconSocial from "../ui/ButtonIconSocial.jsx";
 import {FaInstagram} from "react-icons/fa6";
@@ -13,6 +12,8 @@ import Button from "../ui/Button.jsx";
 import {HiCheck} from "react-icons/hi2";
 import {HiDownload} from "react-icons/hi";
 import {downloadImages} from "../utils/useDownloadImages.js";
+import Header from "../ui/Header.jsx";
+import Icon from "../ui/Icon.jsx";
 
 const Layout = styled.main`
     position: relative;
@@ -77,6 +78,16 @@ const CustomCheckbox = styled.div`
         visibility: ${({checked}) => (checked ? 'visible' : 'hidden')};
     }
 `;
+const Contact = styled.a`
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    justify-self: center;
+    gap: 1rem;
+    cursor: pointer;
+
+`
 
 const Gallery = () => {
 
@@ -84,7 +95,7 @@ const Gallery = () => {
     const [selectButton, setSelectButton] = useState();
     const [checkedAll, setCheckedAll] = useState(false);
     const [selectedImages, setSelectedImages] = useState([])
-    const [selectedImageLength,setSelectedImageLength] = useState(0);
+    const [selectedImageLength, setSelectedImageLength] = useState(0);
 
     const handleSelectGrid = (gridNum) => {
         setSelectGrid(gridNum)
@@ -117,6 +128,7 @@ const Gallery = () => {
     return (
         <Layout>
             <StyledHome>
+                <Header/>
                 <FlexGroup type="row" style={{justifyContent: 'center'}}>
                     <FlexGroup style={{gap: 0, alignItems: 'center'}}>
                         <FlexGroup type="row" changeDirection>
@@ -126,14 +138,16 @@ const Gallery = () => {
                             </ButtonIconSocial>
                         </FlexGroup>
 
-                        <Heading type="h4" subheading>
-                            <ActionLink href="tel:+38970000000">
-                                +38970000000
-                            </ActionLink>
-                        </Heading>
+                        <Contact href="https://www.instagram.com/sema.event/">
+                            <Icon>
+                                <FaInstagram/>
+                            </Icon>
+                            <p style={{textDecoration: 'underline', marginBottom: '3px'}}>
+                                sema.event
+                            </p>
+                        </Contact>
 
                     </FlexGroup>
-                    <DarkModeToggle absolute/>
 
                 </FlexGroup>
                 <Seperator style={{marginTop: '-20px'}}/>
@@ -153,11 +167,12 @@ const Gallery = () => {
                             {!selectButton ? <ActionLink style={{fontSize: '1.8rem'}} onClick={handleSelect}>
                                 <p>Select</p>
                             </ActionLink> : <ActionLink style={{fontSize: '1.8rem'}} onClick={handleCancel}>
-                               <p>Cancel</p>
+                                <p>Cancel</p>
                             </ActionLink>}
 
 
                         </FlexGroup>
+
                         {selectButton && <Button size="small" smallButton onClick={handleDownloadSelected}>
                             <FlexGroup type="row" style={{justifyContent: 'center', gap: '.2rem'}}>
                                 <HiDownload/>

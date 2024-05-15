@@ -3,7 +3,6 @@ import styled from "styled-components";
 import HomeAdminLayout from "./HomeAdminLayout.jsx";
 import NavigationBar from "../../ui/NavigationBar.jsx";
 import Header from "../../ui/Header.jsx";
-import {useCurrentUser} from "../authentication/useCurrentUser.js";
 import SpinnerMini from "../../ui/SpinnerMini.jsx";
 import AccessDenied from "../../ui/AccessDenied.jsx";
 import {useUser} from "../authentication/useUser.js";

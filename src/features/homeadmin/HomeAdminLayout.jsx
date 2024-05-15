@@ -22,6 +22,7 @@ import Modal from "../../ui/Modal.jsx";
 import {useDeleteBucket} from "./useDeleteBucket.js";
 import SearchInput from "../../ui/SearchInput.jsx";
 import {useSearchParams} from "react-router-dom";
+import {formatDateHelper} from "../../utils/helpers.js";
 
 
 const Header = styled.div`
@@ -164,7 +165,7 @@ const HomeAdminLayout = () => {
                                     <HiCalendarDays/>
                                 </Icon>
                                 <Heading type="h4" subheading>
-                                    {bucket.date.toString().replaceAll("T", " ").slice(0, bucket.date.toString().length - 3)}
+                                    {formatDateHelper(new Date(bucket.date))}
                                 </Heading>
                             </FlexGroup>
                             <FlexGroup type="row">

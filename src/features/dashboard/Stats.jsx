@@ -39,7 +39,7 @@ function Stats() {
                 title="Average profit"
                 color="yellow"
                 icon={<HiOutlineChartBar/>}
-                value={(buckets * 500) / users}
+                value={formatCurrency((buckets * 500) / users)}
             />
         </FlexGroup>
     );
